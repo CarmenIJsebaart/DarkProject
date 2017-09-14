@@ -25,8 +25,8 @@ using namespace std;
 
 int main()
 {
-  const int w_size_x = 900;
-  const int w_size_y = 600;
+  const int w_size_x = 800;
+  const int w_size_y = 400;
   sf::RenderWindow w(sf::VideoMode(w_size_x, w_size_y), "DarkProject",
     sf::Style::Titlebar | sf::Style::Close);
 
@@ -54,9 +54,19 @@ int main()
   eraser.setOutlineThickness(2);
   eraser.setSize(sf::Vector2f(w_size_x, w_size_y*2));
 
-  sf::Texture background;
-  background.loadFromFile("Map.jpg");
-  sf::Sprite map(background);
+  sf::Texture grass;
+  grass.loadFromFile("Grass.png");
+  sf::Sprite map(grass);
+
+  sf::Texture RRH;
+  RRH.loadFromFile("CandlePicture_redhood.png");
+  sf::Sprite RRH_sprite(RRH);
+  RRH_sprite.setPosition(200, 200);
+
+  sf::Texture WOLF;
+  WOLF.loadFromFile("CandlePicture_wolf.png");
+  sf::Sprite WOLF_sprite(WOLF);
+  WOLF_sprite.setPosition(200, 200);
 
   while(w.isOpen())
   {
@@ -78,11 +88,11 @@ int main()
 
     w.setView(view1);
     w.draw(map);
-    w.draw(RedRidingHood);
+    w.draw(RRH_sprite);
 
     w.setView(view2);
     w.draw(map);
-    w.draw(Wolf);
+    w.draw(WOLF_sprite);
 
     w.display();
   }
