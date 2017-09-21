@@ -45,22 +45,34 @@ int main()
   sf::Texture RRH;
   RRH.loadFromFile("CandlePicture_redhood.png");
   sf::Sprite RRH_sprite(RRH);
-  RRH_sprite.setPosition(200, 200);
+  //Centre of the picture
+  RRH_sprite.setOrigin(327, 323);
+  //Centre + position on screen
+  RRH_sprite.setPosition(527, 523);
 
   sf::Texture WOLF2;
   WOLF2.loadFromFile("CandlePicture_wolf2.png");
   sf::Sprite WOLF_sprite2(WOLF2);
-  WOLF_sprite2.setPosition(200, 200);
+  //Centre of the picture
+  WOLF_sprite2.setOrigin(327, 323);
+  //Centre + position on screen
+  WOLF_sprite2.setPosition(527, 523);
 
   sf::Texture RRH2;
   RRH2.loadFromFile("CandlePicture_redhood2.png");
   sf::Sprite RRH_sprite2(RRH2);
-  RRH_sprite2.setPosition(200, 200);
+  //Centre of the picture
+  RRH_sprite2.setOrigin(327, 323);
+  //Centre + position on screen
+  RRH_sprite2.setPosition(527, 523);
 
   sf::Texture WOLF;
   WOLF.loadFromFile("CandlePicture_wolf.png");
   sf::Sprite WOLF_sprite(WOLF);
-  WOLF_sprite.setPosition(200, 200);
+  //Centre of the picture
+  WOLF_sprite.setOrigin(327, 323);
+  //Centre + position on screen
+  WOLF_sprite.setPosition(527, 523);
 
   while(w.isOpen())
   {
@@ -77,52 +89,60 @@ int main()
           //Player 1
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
           {
-            view1.move(0, 1);
-            RRH_sprite.move(0, 1);
-            RRH_sprite2.move(0, 1);
+            RRH_sprite.setRotation(180);
+            view1.move(0, 10);
+            RRH_sprite.move(0, 10);
+            RRH_sprite2.move(0, 10);
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
           {
-            view1.move(1, 0);
-            RRH_sprite.move(1, 0);
-            RRH_sprite2.move(1, 0);
+            RRH_sprite.setRotation(90);
+            view1.move(10, 0);
+            RRH_sprite.move(10, 0);
+            RRH_sprite2.move(10, 0);
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
           {
-            view1.move(0, -1);
-            RRH_sprite.move(0, -1);
-            RRH_sprite2.move(0, -1);
+            RRH_sprite.setRotation(0);
+            view1.move(0, -10);
+            RRH_sprite.move(0, -10);
+            RRH_sprite2.move(0, -10);
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
           {
-            view1.move(-1, 0);
-            RRH_sprite.move(-1, 0);
-            RRH_sprite2.move(-1, 0);
+            RRH_sprite.setRotation(270);
+            view1.move(-10, 0);
+            RRH_sprite.move(-10, 0);
+            RRH_sprite2.move(-10, 0);
           }
           //Player 2
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
           {
-            view2.move(0, 1);
-            WOLF_sprite.move(0, 1);
-            WOLF_sprite2.move(0, 1);
+            WOLF_sprite.setRotation(180);
+            view2.move(0, 10);
+            WOLF_sprite.move(0, 10);
+            WOLF_sprite2.move(0, 10);
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
           {
-            view2.move(1, 0);
-            WOLF_sprite.move(1, 0);
-            WOLF_sprite2.move(1, 0);
+            WOLF_sprite.setRotation(90);
+            view2.move(10, 0);
+            WOLF_sprite.move(10, 0);
+            WOLF_sprite2.move(10, 0);
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
           {
-            view2.move(0, -1);
-            WOLF_sprite.move(0, -1);
-            WOLF_sprite2.move(0, -1);
+            WOLF_sprite.setRotation(0);
+            view2.move(0, -10);
+            WOLF_sprite.move(0, -10);
+            WOLF_sprite2.move(0, -10);
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
           {
-            view2.move(-1, 0);
-            WOLF_sprite.move(-1, 0);
-            WOLF_sprite2.move(-1, 0);
+            WOLF_sprite.setRotation(270);
+            view2.move(-10, 0);
+            WOLF_sprite.move(-10, 0);
+            WOLF_sprite2.move(-10, 0);
           }
           break;
       default:
