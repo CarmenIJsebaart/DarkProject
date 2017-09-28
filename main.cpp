@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "tilemap.h"
+
 ////////////////////////////////////////////////////////////
 ///                                                      ///
 ///      ----- Red Riding Hood  ------> Big Bad Wolf     ///
@@ -40,7 +42,7 @@ int main()
 
   sf::Texture grass;
   grass.loadFromFile("Grass.png");
-  sf::Sprite map(grass);
+  //sf::Sprite map(grass);
 
   sf::Texture RRH;
   RRH.loadFromFile("CandlePicture_redhood.png");
@@ -73,6 +75,20 @@ int main()
   WOLF_sprite.setOrigin(327, 323);
   //Centre + position on screen
   WOLF_sprite.setPosition(527, 523);
+
+  // define the level with an array of tile indices
+  std::vector<int> level;
+
+  for(int i = 0; i != 1600; ++i)
+  {
+    int number = rand() % 4;
+    level.push_back(number);
+  }
+
+  // create the tilemap from the level definition
+  tilemap map;
+  if (!map.load("tilemap.png", sf::Vector2u(130, 130), level, 40, 40))
+    return -1;
 
   while(w.isOpen())
   {
@@ -165,4 +181,3 @@ int main()
     w.display();
   }
 }
-
