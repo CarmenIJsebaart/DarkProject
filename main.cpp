@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cmath>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -24,6 +25,7 @@
 ///                                                      ///
 ////////////////////////////////////////////////////////////
 
+bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2);
 sf::Vector2f set_position(const int quad);
 
 int main()
@@ -245,15 +247,40 @@ int main()
     w.setView(view1);
     w.draw(map);
     w.draw(WOLF_sprite2);
-    w.draw(RRH_sprite);
+
+    if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
+    {
+      w.draw(RRH_sprite);
+    }
 
     w.setView(view2);
     w.draw(map);
-    w.draw(RRH_sprite2);
+    if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
+    {
+      w.draw(RRH_sprite2);
+    }
     w.draw(WOLF_sprite);
 
     w.display();
   }
+}
+
+bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2)
+{
+  float dist_x = pos1.x - pos2.x;
+  float dist_y = pos1.y - pos2.y;
+  float dist_x_2 = dist_x * dist_x;
+  float dist_y_2 = dist_y * dist_y;
+
+  float dist = sqrt(dist_x_2 + dist_y_2);
+  std::cout << dist << std::endl;
+
+  //111 is a magic number (personal space)
+  if(dist <= 75)
+  {
+    return true;
+  }
+  return false;
 }
 
 sf::Vector2f set_position(const int quad)
