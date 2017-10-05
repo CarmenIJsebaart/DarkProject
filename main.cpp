@@ -147,68 +147,92 @@ int main()
           //Player 1
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
           {
-            RRH_sprite.setRotation(180);
-            view1.move(0, 10);
-            RRH_sprite.move(0, 10);
-            RRH_sprite2.move(0, 10);
-            assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+            if(RRH_sprite.getPosition().y < 5200)
+            {
+              RRH_sprite.setRotation(180);
+              view1.move(0, 10);
+              RRH_sprite.move(0, 10);
+              RRH_sprite2.move(0, 10);
+              assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+            }
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
           {
-            RRH_sprite.setRotation(90);
-            view1.move(10, 0);
-            RRH_sprite.move(10, 0);
-            RRH_sprite2.move(10, 0);
-            assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+            if(RRH_sprite.getPosition().x < 5200)
+            {
+              RRH_sprite.setRotation(90);
+              view1.move(10, 0);
+              RRH_sprite.move(10, 0);
+              RRH_sprite2.move(10, 0);
+              assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+            }
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
           {
-            RRH_sprite.setRotation(0);
-            view1.move(0, -10);
-            RRH_sprite.move(0, -10);
-            RRH_sprite2.move(0, -10);
-            assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+            if(RRH_sprite.getPosition().y > 0)
+            {
+              RRH_sprite.setRotation(0);
+              view1.move(0, -10);
+              RRH_sprite.move(0, -10);
+              RRH_sprite2.move(0, -10);
+              assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+            }
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
           {
-            RRH_sprite.setRotation(270);
-            view1.move(-10, 0);
-            RRH_sprite.move(-10, 0);
-            RRH_sprite2.move(-10, 0);
-            assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+            if(RRH_sprite.getPosition().x > 0)
+            {
+              RRH_sprite.setRotation(270);
+              view1.move(-10, 0);
+              RRH_sprite.move(-10, 0);
+              RRH_sprite2.move(-10, 0);
+              assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+            }
           }
           //Player 2
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
           {
-            WOLF_sprite.setRotation(180);
-            view2.move(0, 10);
-            WOLF_sprite.move(0, 10);
-            WOLF_sprite2.move(0, 10);
-            assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+            if(WOLF_sprite.getPosition().y < 5200)
+            {
+              WOLF_sprite.setRotation(180);
+              view2.move(0, 10);
+              WOLF_sprite.move(0, 10);
+              WOLF_sprite2.move(0, 10);
+              assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+            }
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
           {
-            WOLF_sprite.setRotation(90);
-            view2.move(10, 0);
-            WOLF_sprite.move(10, 0);
-            WOLF_sprite2.move(10, 0);
-            assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+            if(WOLF_sprite.getPosition().x < 5200)
+            {
+              WOLF_sprite.setRotation(90);
+              view2.move(10, 0);
+              WOLF_sprite.move(10, 0);
+              WOLF_sprite2.move(10, 0);
+              assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+            }
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
           {
-            WOLF_sprite.setRotation(0);
-            view2.move(0, -10);
-            WOLF_sprite.move(0, -10);
-            WOLF_sprite2.move(0, -10);
-            assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+            if(WOLF_sprite.getPosition().y > 0)
+            {
+              WOLF_sprite.setRotation(0);
+              view2.move(0, -10);
+              WOLF_sprite.move(0, -10);
+              WOLF_sprite2.move(0, -10);
+              assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+            }
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
           {
-            WOLF_sprite.setRotation(270);
-            view2.move(-10, 0);
-            WOLF_sprite.move(-10, 0);
-            WOLF_sprite2.move(-10, 0);
-            assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+            if(WOLF_sprite.getPosition().x > 0)
+            {
+              WOLF_sprite.setRotation(270);
+              view2.move(-10, 0);
+              WOLF_sprite.move(-10, 0);
+              WOLF_sprite2.move(-10, 0);
+              assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+            }
           }
           break;
       default:
