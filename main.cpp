@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -23,7 +24,7 @@
 ///                                                      ///
 ////////////////////////////////////////////////////////////
 
-using namespace std;
+sf::Vector2f set_position(const int quad);
 
 int main()
 {
@@ -33,16 +34,13 @@ int main()
     sf::Style::Titlebar | sf::Style::Close);
 
   sf::View view1, view2;
-
   view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1));
   view1.setSize(w_size_x/2, w_size_y);
+  view1.setCenter(0,0);
 
   view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1));
   view2.setSize(w_size_x/2, w_size_y);
-
-  sf::Texture grass;
-  grass.loadFromFile("Grass.png");
-  //sf::Sprite map(grass);
+  view2.setCenter(0,0);
 
   sf::Texture RRH;
   RRH.loadFromFile("CandlePicture_redhood.png");
@@ -76,7 +74,51 @@ int main()
   //Centre + position on screen
   WOLF_sprite.setPosition(527, 523);
 
-  // define the level with an array of tile indices
+  ///////////////////////////////////////////////////////
+  ///  First choose a quadrant a player has to start  ///
+  ///  in. Then choose a random position in this      ///
+  ///  quadrant.                                      ///
+  ///   ___________________________________________   ///
+  ///  |                     |                     |  ///
+  ///  |                     |                     |  ///
+  ///  |    hor.             |    hor.             |  ///
+  ///  |    0-2100           |    3100-5200        |  ///
+  ///  |    ver.             |    ver.             |  ///
+  ///  |    0-2100           |    0-2100           |  ///
+  ///  |                     |                     |  ///
+  ///  |_____________________|_____________________|  ///
+  ///  |                     |                     |  ///
+  ///  |                     |                     |  ///
+  ///  |    hor.             |    hor.             |  ///
+  ///  |    0-2100           |    3100-5200        |  ///
+  ///  |    ver.             |    ver.             |  ///
+  ///  |    3100-5200        |    3100-5200        |  ///
+  ///  |                     |                     |  ///
+  ///  |_____________________|_____________________|  ///
+  ///                                                 ///
+  ///////////////////////////////////////////////////////
+
+  //Choose a random quadrant
+  int quad_RRH = rand() % 4;
+  int quad_WOLF = rand() % 4;
+  while(quad_RRH == quad_WOLF)
+  {
+    quad_WOLF = rand() % 4;
+  }
+
+  //Choose a random position in the correct quadrant
+  RRH_sprite.setPosition(set_position(quad_RRH));
+  sf::Vector2f RRH_pos = RRH_sprite.getPosition();
+  RRH_sprite2.setPosition(RRH_pos);
+  view1.move(RRH_pos);
+  assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+  WOLF_sprite.setPosition(set_position(quad_WOLF));
+  sf::Vector2f WOLF_pos = WOLF_sprite.getPosition();
+  WOLF_sprite2.setPosition(WOLF_pos);
+  view2.move(WOLF_pos);
+  assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+
+  // define the level with a vector of tile indices
   std::vector<int> level;
 
   for(int i = 0; i != 1600; ++i)
@@ -109,6 +151,7 @@ int main()
             view1.move(0, 10);
             RRH_sprite.move(0, 10);
             RRH_sprite2.move(0, 10);
+            assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
           {
@@ -116,6 +159,7 @@ int main()
             view1.move(10, 0);
             RRH_sprite.move(10, 0);
             RRH_sprite2.move(10, 0);
+            assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
           {
@@ -123,6 +167,7 @@ int main()
             view1.move(0, -10);
             RRH_sprite.move(0, -10);
             RRH_sprite2.move(0, -10);
+            assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
           {
@@ -130,6 +175,7 @@ int main()
             view1.move(-10, 0);
             RRH_sprite.move(-10, 0);
             RRH_sprite2.move(-10, 0);
+            assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
           }
           //Player 2
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -138,6 +184,7 @@ int main()
             view2.move(0, 10);
             WOLF_sprite.move(0, 10);
             WOLF_sprite2.move(0, 10);
+            assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
           {
@@ -145,6 +192,7 @@ int main()
             view2.move(10, 0);
             WOLF_sprite.move(10, 0);
             WOLF_sprite2.move(10, 0);
+            assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
           {
@@ -152,6 +200,7 @@ int main()
             view2.move(0, -10);
             WOLF_sprite.move(0, -10);
             WOLF_sprite2.move(0, -10);
+            assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
           }
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
           {
@@ -159,6 +208,7 @@ int main()
             view2.move(-10, 0);
             WOLF_sprite.move(-10, 0);
             WOLF_sprite2.move(-10, 0);
+            assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
           }
           break;
       default:
@@ -180,4 +230,49 @@ int main()
 
     w.display();
   }
+}
+
+sf::Vector2f set_position(const int quad)
+{
+  if(quad == 0)
+  {
+    float x = rand() % 2101;
+    float y = rand() % 2101;
+
+    sf::Vector2f pos;
+    pos.x = x;
+    pos.y = y;
+    return pos;
+  }
+  else if(quad == 1)
+  {
+    float x = rand() % 2100 + 3100;
+    float y = rand() % 2101;
+
+    sf::Vector2f pos;
+    pos.x = x;
+    pos.y = y;
+    return pos;
+  }
+  else if(quad == 2)
+  {
+    float x = rand() % 2101;
+    float y = rand() % 2100 + 3100;
+
+    sf::Vector2f pos;
+    pos.x = x;
+    pos.y = y;
+    return pos;
+  }
+  else if(quad == 3)
+  {
+    float x = rand() % 2100 + 3100;
+    float y = rand() % 2100 + 3100;
+
+    sf::Vector2f pos;
+    pos.x = x;
+    pos.y = y;
+    return pos;
+  }
+  return sf::Vector2f(0,0);
 }
