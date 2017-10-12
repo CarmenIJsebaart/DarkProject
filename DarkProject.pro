@@ -1,6 +1,7 @@
 # Files
 SOURCES += main.cpp \
-    tilemap.cpp
+    tilemap.cpp \
+    game_state.cpp
 
 # C++14
 CONFIG += c++14
@@ -51,5 +52,6 @@ LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 QMAKE_CXXFLAGS += -Wno-unused-variable
 
 HEADERS += \
-    tilemap.h
+    tilemap.h \
+    game_state.h
 

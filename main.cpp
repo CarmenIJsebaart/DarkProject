@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "game_state.h"
 #include "tilemap.h"
 
 ////////////////////////////////////////////////////////////
@@ -76,6 +77,12 @@ int main()
   //Centre + position on screen
   WOLF_sprite.setPosition(527, 523);
 
+  sf::Texture GRANDMOTHER;
+  GRANDMOTHER.loadFromFile("Grandmother.png");
+  sf::Sprite GRANDMOTHER_sprite(GRANDMOTHER);
+  //Center of the picture
+  GRANDMOTHER_sprite.setOrigin(12, 12);
+
   ///////////////////////////////////////////////////////
   ///  First choose a quadrant a player has to start  ///
   ///  in. Then choose a random position in this      ///
@@ -100,12 +107,17 @@ int main()
   ///                                                 ///
   ///////////////////////////////////////////////////////
 
-  //Choose a random quadrant
+  //Choose a random quadrant for players and grandmother
   int quad_RRH = rand() % 4;
   int quad_WOLF = rand() % 4;
+  int quad_GRANDMOTHER = rand() % 4;
   while(quad_RRH == quad_WOLF)
   {
     quad_WOLF = rand() % 4;
+  }
+  while(quad_WOLF == quad_GRANDMOTHER || quad_RRH == quad_GRANDMOTHER)
+  {
+    quad_GRANDMOTHER = rand() % 4;
   }
 
   //Choose a random position in the correct quadrant
@@ -119,6 +131,9 @@ int main()
   WOLF_sprite2.setPosition(WOLF_pos);
   view2.move(WOLF_pos);
   assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+  GRANDMOTHER_sprite.setPosition(set_position(quad_GRANDMOTHER));
+  //std::cout << GRANDMOTHER_sprite.getPosition().x << std::endl;
+  //std::cout << GRANDMOTHER_sprite.getPosition().y << std::endl;
 
   // define the level with a vector of tile indices
   std::vector<int> level;
@@ -133,6 +148,8 @@ int main()
   tilemap map;
   if (!map.load("tilemap.png", sf::Vector2u(130, 130), level, 40, 40))
     return -1;
+
+  Gamestate state = Gamestate::running;
 
   while(w.isOpen())
   {
@@ -253,11 +270,18 @@ int main()
       w.draw(RRH_sprite);
     }
 
+    std::cout << WOLF_sprite.getPosition().x << std::endl;
+    std::cout << WOLF_sprite.getPosition().y << std::endl;
+
     w.setView(view2);
     w.draw(map);
     if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
     {
       w.draw(RRH_sprite2);
+    }
+    if(!has_to_die(GRANDMOTHER_sprite.getPosition(), WOLF_sprite.getPosition()))
+    {
+      w.draw(GRANDMOTHER_sprite);
     }
     w.draw(WOLF_sprite);
 
@@ -273,9 +297,9 @@ bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2)
   float dist_y_2 = dist_y * dist_y;
 
   float dist = sqrt(dist_x_2 + dist_y_2);
-  std::cout << dist << std::endl;
+  //std::cout << dist << std::endl;
 
-  //111 is a magic number (personal space)
+  //75 is a magic number (personal space)
   if(dist <= 75)
   {
     return true;
