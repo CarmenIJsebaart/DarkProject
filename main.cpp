@@ -83,6 +83,11 @@ int main()
   //Center of the picture
   GRANDMOTHER_sprite.setOrigin(12, 12);
 
+  sf::Texture wolfwins;
+  wolfwins.loadFromFile("Wolf_winner_screen.png");
+  sf::Sprite wolfwins_sprite(wolfwins);
+  wolfwins_sprite.setPosition(0, 0);
+
   ///////////////////////////////////////////////////////
   ///  First choose a quadrant a player has to start  ///
   ///  in. Then choose a random position in this      ///
@@ -155,137 +160,158 @@ int main()
   {
     sf::Event event;
 
-    while(w.pollEvent(event))
+    while(state == Gamestate::running)
     {
-      switch(event.type)
+      while(w.pollEvent(event))
       {
-        case sf::Event::Closed:
-          w.close();
-          break;
-        case sf::Event::KeyPressed:
-          //Player 1
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-          {
-            if(RRH_sprite.getPosition().y < 5200)
+        switch(event.type)
+        {
+          case sf::Event::Closed:
+            w.close();
+            break;
+          case sf::Event::KeyPressed:
+            //Player 1
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
             {
-              RRH_sprite.setRotation(180);
-              view1.move(0, 10);
-              RRH_sprite.move(0, 10);
-              RRH_sprite2.move(0, 10);
-              assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+              if(RRH_sprite.getPosition().y < 5200)
+              {
+                RRH_sprite.setRotation(180);
+                view1.move(0, 10);
+                RRH_sprite.move(0, 10);
+                RRH_sprite2.move(0, 10);
+                assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+              }
             }
-          }
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-          {
-            if(RRH_sprite.getPosition().x < 5200)
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
-              RRH_sprite.setRotation(90);
-              view1.move(10, 0);
-              RRH_sprite.move(10, 0);
-              RRH_sprite2.move(10, 0);
-              assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+              if(RRH_sprite.getPosition().x < 5200)
+              {
+                RRH_sprite.setRotation(90);
+                view1.move(10, 0);
+                RRH_sprite.move(10, 0);
+                RRH_sprite2.move(10, 0);
+                assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+              }
             }
-          }
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-          {
-            if(RRH_sprite.getPosition().y > 0)
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
             {
-              RRH_sprite.setRotation(0);
-              view1.move(0, -10);
-              RRH_sprite.move(0, -10);
-              RRH_sprite2.move(0, -10);
-              assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+              if(RRH_sprite.getPosition().y > 0)
+              {
+                RRH_sprite.setRotation(0);
+                view1.move(0, -10);
+                RRH_sprite.move(0, -10);
+                RRH_sprite2.move(0, -10);
+                assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+              }
             }
-          }
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-          {
-            if(RRH_sprite.getPosition().x > 0)
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
             {
-              RRH_sprite.setRotation(270);
-              view1.move(-10, 0);
-              RRH_sprite.move(-10, 0);
-              RRH_sprite2.move(-10, 0);
-              assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+              if(RRH_sprite.getPosition().x > 0)
+              {
+                RRH_sprite.setRotation(270);
+                view1.move(-10, 0);
+                RRH_sprite.move(-10, 0);
+                RRH_sprite2.move(-10, 0);
+                assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+              }
             }
-          }
-          //Player 2
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-          {
-            if(WOLF_sprite.getPosition().y < 5200)
+            //Player 2
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {
-              WOLF_sprite.setRotation(180);
-              view2.move(0, 10);
-              WOLF_sprite.move(0, 10);
-              WOLF_sprite2.move(0, 10);
-              assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+              if(WOLF_sprite.getPosition().y < 5200)
+              {
+                WOLF_sprite.setRotation(180);
+                view2.move(0, 10);
+                WOLF_sprite.move(0, 10);
+                WOLF_sprite2.move(0, 10);
+                assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+              }
             }
-          }
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-          {
-            if(WOLF_sprite.getPosition().x < 5200)
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
-              WOLF_sprite.setRotation(90);
-              view2.move(10, 0);
-              WOLF_sprite.move(10, 0);
-              WOLF_sprite2.move(10, 0);
-              assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+              if(WOLF_sprite.getPosition().x < 5200)
+              {
+                WOLF_sprite.setRotation(90);
+                view2.move(10, 0);
+                WOLF_sprite.move(10, 0);
+                WOLF_sprite2.move(10, 0);
+                assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+              }
             }
-          }
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-          {
-            if(WOLF_sprite.getPosition().y > 0)
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
             {
-              WOLF_sprite.setRotation(0);
-              view2.move(0, -10);
-              WOLF_sprite.move(0, -10);
-              WOLF_sprite2.move(0, -10);
-              assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+              if(WOLF_sprite.getPosition().y > 0)
+              {
+                WOLF_sprite.setRotation(0);
+                view2.move(0, -10);
+                WOLF_sprite.move(0, -10);
+                WOLF_sprite2.move(0, -10);
+                assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+              }
             }
-          }
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-          {
-            if(WOLF_sprite.getPosition().x > 0)
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             {
-              WOLF_sprite.setRotation(270);
-              view2.move(-10, 0);
-              WOLF_sprite.move(-10, 0);
-              WOLF_sprite2.move(-10, 0);
-              assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+              if(WOLF_sprite.getPosition().x > 0)
+              {
+                WOLF_sprite.setRotation(270);
+                view2.move(-10, 0);
+                WOLF_sprite.move(-10, 0);
+                WOLF_sprite2.move(-10, 0);
+                assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+              }
             }
-          }
-          break;
-      default:
-          break;
+            break;
+        default:
+            break;
+        }
       }
+
+      w.clear();
+
+      w.setView(view1);
+      w.draw(map);
+      w.draw(WOLF_sprite2);
+
+      if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
+      {
+        w.draw(RRH_sprite);
+      }
+
+      //std::cout << WOLF_sprite.getPosition().x << std::endl;
+      //std::cout << WOLF_sprite.getPosition().y << std::endl;
+
+      w.setView(view2);
+      w.draw(map);
+      if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
+      {
+        w.draw(RRH_sprite2);
+      }
+      else
+      {
+        state = Gamestate::game_won_by_wolf;
+      }
+      if(!has_to_die(GRANDMOTHER_sprite.getPosition(), WOLF_sprite.getPosition()))
+      {
+        w.draw(GRANDMOTHER_sprite);
+      }
+      else
+      {
+        state = Gamestate::game_won_by_wolf;
+      }
+      w.draw(WOLF_sprite);
+      w.display();
     }
-
-    w.clear();
-
-    w.setView(view1);
-    w.draw(map);
-    w.draw(WOLF_sprite2);
-
-    if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
+    if(state == Gamestate::game_won_by_wolf)
     {
-      w.draw(RRH_sprite);
+      w.setView(view1);
+      view1.setViewport(sf::FloatRect(0, 0, 1, 1));
+      view1.setCenter(0, 0);
+      wolfwins_sprite.setScale(0.4, 0.6);
+      wolfwins_sprite.setPosition(-180, -175);
+      w.clear(sf::Color::Red);
+      w.draw(wolfwins_sprite);
+      w.display();
     }
-
-    std::cout << WOLF_sprite.getPosition().x << std::endl;
-    std::cout << WOLF_sprite.getPosition().y << std::endl;
-
-    w.setView(view2);
-    w.draw(map);
-    if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
-    {
-      w.draw(RRH_sprite2);
-    }
-    if(!has_to_die(GRANDMOTHER_sprite.getPosition(), WOLF_sprite.getPosition()))
-    {
-      w.draw(GRANDMOTHER_sprite);
-    }
-    w.draw(WOLF_sprite);
-
-    w.display();
   }
 }
 
