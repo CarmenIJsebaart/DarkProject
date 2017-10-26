@@ -55,3 +55,6 @@ HEADERS += \
     tilemap.h \
     game_state.h
 
+RESOURCES += \
+    resources.qrc
+

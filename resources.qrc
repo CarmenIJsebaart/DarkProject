@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/sprites">
+        <file>Sprites/Bush.png</file>
+        <file>Sprites/CandlePicture_wolf2.png</file>
+        <file>Sprites/deadgrandmother_winner_screen.png</file>
+        <file>Sprites/DoubleTree.png</file>
+        <file>Sprites/Grandmother.png</file>
+        <file>Sprites/Grass.png</file>
+        <file>Sprites/GrassBush.png</file>
+        <file>Sprites/GrassTree.png</file>
+        <file>Sprites/Hunter.png</file>
+        <file>Sprites/RRH_winner_screen.png</file>
+        <file>Sprites/tilemap.png</file>
+        <file>Sprites/Tree.png</file>
+        <file>Sprites/Wolf_winner_screen.png</file>
+    </qresource>
+</RCC>
