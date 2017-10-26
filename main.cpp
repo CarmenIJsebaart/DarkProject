@@ -83,10 +83,21 @@ int main()
   //Center of the picture
   GRANDMOTHER_sprite.setOrigin(12, 12);
 
+  sf::Texture HUNTER;
+  HUNTER.loadFromFile("Hunter.png");
+  sf::Sprite HUNTER_sprite(HUNTER);
+  //center of the picture
+  HUNTER_sprite.setOrigin(12,12);
+
   sf::Texture wolfwins;
   wolfwins.loadFromFile("Wolf_winner_screen.png");
   sf::Sprite wolfwins_sprite(wolfwins);
   wolfwins_sprite.setPosition(0, 0);
+
+  sf::Texture wolfwins2;
+  wolfwins.loadFromFile("deadgrandmother_winner_screen.png");
+  sf::Sprite wolfwins2_sprite(wolfwins2);
+  wolfwins2_sprite.setPosition(0, 0);
 
   ///////////////////////////////////////////////////////
   ///  First choose a quadrant a player has to start  ///
