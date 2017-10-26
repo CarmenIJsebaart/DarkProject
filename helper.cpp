@@ -1,12 +1,11 @@
 #include "helper.h"
 
 #include <cassert>
-#include <cmath>
 #include <iostream>
 #include <QFile>
 #include <vector>
 
-/*void create_fonts()
+void create_fonts()
 {
   std::vector<std::string> v;
   v.push_back("Fonts/arial.ttf");
@@ -20,13 +19,13 @@
     {
       std::cerr << "file " << s << " not created\n";
     }
-    assert(QFile::exists(s.c_str()));
+    assert(QFile::exists(filename.c_str()));
   }
-}*/
+}
 
 void create_resources()
 {
-  //create_fonts();
+  create_fonts();
   create_sprites();
 }
 
