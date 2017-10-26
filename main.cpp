@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "game_state.h"
+#include "helper.h"
 #include "tilemap.h"
 
 ////////////////////////////////////////////////////////////
@@ -44,6 +45,11 @@ int main()
   view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1));
   view2.setSize(w_size_x/2, w_size_y);
   view2.setCenter(0,0);
+
+  create_resources();
+
+  sf::Font arial;
+  arial.loadFromFile("arial.ttf");
 
   sf::Texture RRH;
   RRH.loadFromFile("CandlePicture_redhood.png");

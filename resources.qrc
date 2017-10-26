@@ -13,5 +13,11 @@
         <file>Sprites/tilemap.png</file>
         <file>Sprites/Tree.png</file>
         <file>Sprites/Wolf_winner_screen.png</file>
+        <file>Sprites/CandlePicture_redhood.png</file>
+        <file>Sprites/CandlePicture_redhood2.png</file>
+        <file>Sprites/CandlePicture_wolf.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>Fonts/arial.ttf</file>
     </qresource>
 </RCC>

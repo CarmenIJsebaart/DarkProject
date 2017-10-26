@@ -1,7 +1,8 @@
 # Files
 SOURCES += main.cpp \
     tilemap.cpp \
-    game_state.cpp
+    game_state.cpp \
+    helper.cpp
 
 # C++14
 CONFIG += c++14
@@ -53,7 +54,8 @@ QMAKE_CXXFLAGS += -Wno-unused-variable
 
 HEADERS += \
     tilemap.h \
-    game_state.h
+    game_state.h \
+    helper.h
 
 RESOURCES += \
     resources.qrc
