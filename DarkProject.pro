@@ -5,7 +5,11 @@ SOURCES += main.cpp \
     helper.cpp \
     home_screen.cpp \
     program.cpp \
-    sprites_sfml.cpp
+    sprites_sfml.cpp \
+    game.cpp \
+    game_won_by_rrh_screen.cpp \
+    game_won_by_wolf_screen.cpp \
+    dead_grandmother_wolf_wins_screen.cpp
 
 # C++14
 CONFIG += c++14
@@ -61,7 +65,11 @@ HEADERS += \
     helper.h \
     home_screen.h \
     program.h \
-    sprites_sfml.h
+    sprites_sfml.h \
+    game.h \
+    game_won_by_rrh_screen.h \
+    game_won_by_wolf_screen.h \
+    dead_grandmother_wolf_wins_screen.h
 
 RESOURCES += \
     resources.qrc
