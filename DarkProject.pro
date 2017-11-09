@@ -2,7 +2,10 @@
 SOURCES += main.cpp \
     tilemap.cpp \
     game_state.cpp \
-    helper.cpp
+    helper.cpp \
+    home_screen.cpp \
+    program.cpp \
+    sprites_sfml.cpp
 
 # C++14
 CONFIG += c++14
@@ -55,7 +58,10 @@ QMAKE_CXXFLAGS += -Wno-unused-variable
 HEADERS += \
     tilemap.h \
     game_state.h \
-    helper.h
+    helper.h \
+    home_screen.h \
+    program.h \
+    sprites_sfml.h
 
 RESOURCES += \
     resources.qrc

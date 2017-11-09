@@ -51,6 +51,9 @@ int main()
   sf::Font arial;
   arial.loadFromFile("arial.ttf");
 
+  ///Pictures of players
+
+  ///Red Riding Hood
   sf::Texture RRH;
   RRH.loadFromFile("CandlePicture_redhood.png");
   sf::Sprite RRH_sprite(RRH);
@@ -58,14 +61,6 @@ int main()
   RRH_sprite.setOrigin(327, 323);
   //Centre + position on screen
   RRH_sprite.setPosition(527, 523);
-
-  sf::Texture WOLF2;
-  WOLF2.loadFromFile("CandlePicture_wolf2.png");
-  sf::Sprite WOLF_sprite2(WOLF2);
-  //Centre of the picture
-  WOLF_sprite2.setOrigin(327, 323);
-  //Centre + position on screen
-  WOLF_sprite2.setPosition(527, 523);
 
   sf::Texture RRH2;
   RRH2.loadFromFile("CandlePicture_redhood2.png");
@@ -75,6 +70,7 @@ int main()
   //Centre + position on screen
   RRH_sprite2.setPosition(527, 523);
 
+  ///Wolf
   sf::Texture WOLF;
   WOLF.loadFromFile("CandlePicture_wolf.png");
   sf::Sprite WOLF_sprite(WOLF);
@@ -83,27 +79,49 @@ int main()
   //Centre + position on screen
   WOLF_sprite.setPosition(527, 523);
 
+  sf::Texture WOLF2;
+  WOLF2.loadFromFile("CandlePicture_wolf2.png");
+  sf::Sprite WOLF_sprite2(WOLF2);
+  //Centre of the picture
+  WOLF_sprite2.setOrigin(327, 323);
+  //Centre + position on screen
+  WOLF_sprite2.setPosition(527, 523);
+
+  ///Winner screen pictures
+
+  ///Wolf eats Red Riding Hood
+  sf::Texture wolfwins;
+  wolfwins.loadFromFile("Wolf_winner_screen.png");
+  sf::Sprite wolfwins_sprite(wolfwins);
+  wolfwins_sprite.setPosition(0, 0);
+
+  ///Wolf eats Grandmother
+  sf::Texture wolfwins2;
+  wolfwins.loadFromFile("deadgrandmother_winner_screen.png");
+  sf::Sprite wolfwins2_sprite(wolfwins2);
+  wolfwins2_sprite.setPosition(0, 0);
+
+  ///Red Riding Hood meets grandmother
+  sf::Texture RRHwins;
+  RRHwins.loadFromFile("RRH_winner_screen.png");
+  sf::Sprite RRHwins_sprite(RRHwins);
+  RRHwins_sprite.setPosition(0, 0);
+
+  ///Other pictures
+
+  ///Grandmother picture
   sf::Texture GRANDMOTHER;
   GRANDMOTHER.loadFromFile("Grandmother.png");
   sf::Sprite GRANDMOTHER_sprite(GRANDMOTHER);
   //Center of the picture
   GRANDMOTHER_sprite.setOrigin(12, 12);
 
+  ///Hunter picture
   sf::Texture HUNTER;
   HUNTER.loadFromFile("Hunter.png");
   sf::Sprite HUNTER_sprite(HUNTER);
   //center of the picture
   HUNTER_sprite.setOrigin(12,12);
-
-  sf::Texture wolfwins;
-  wolfwins.loadFromFile("Wolf_winner_screen.png");
-  sf::Sprite wolfwins_sprite(wolfwins);
-  wolfwins_sprite.setPosition(0, 0);
-
-  sf::Texture wolfwins2;
-  wolfwins.loadFromFile("deadgrandmother_winner_screen.png");
-  sf::Sprite wolfwins2_sprite(wolfwins2);
-  wolfwins2_sprite.setPosition(0, 0);
 
   ///////////////////////////////////////////////////////
   ///  First choose a quadrant a player has to start  ///
@@ -154,8 +172,6 @@ int main()
   view2.move(WOLF_pos);
   assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
   GRANDMOTHER_sprite.setPosition(set_position(quad_GRANDMOTHER));
-  //std::cout << GRANDMOTHER_sprite.getPosition().x << std::endl;
-  //std::cout << GRANDMOTHER_sprite.getPosition().y << std::endl;
 
   // define the level with a vector of tile indices
   std::vector<int> level;
@@ -294,9 +310,6 @@ int main()
         w.draw(RRH_sprite);
       }
 
-      //std::cout << WOLF_sprite.getPosition().x << std::endl;
-      //std::cout << WOLF_sprite.getPosition().y << std::endl;
-
       w.setView(view2);
       w.draw(map);
       if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
@@ -329,6 +342,28 @@ int main()
       w.draw(wolfwins_sprite);
       w.display();
     }
+    if(state == Gamestate::dead_grandmother_wolf_wins)
+    {
+      w.setView(view1);
+      view1.setViewport(sf::FloatRect(0, 0, 1, 1));
+      view1.setCenter(0, 0);
+      wolfwins2_sprite.setScale(0.4, 0.6);
+      wolfwins2_sprite.setPosition(-170, -200);
+      w.clear(sf::Color::Red);
+      w.draw(wolfwins2_sprite);
+      w.display();
+    }
+    if(state == Gamestate::game_won_by_RRH)
+    {
+      w.setView(view1);
+      view1.setViewport(sf::FloatRect(0, 0, 1, 1));
+      view1.setCenter(0, 0);
+      RRHwins_sprite.setScale(0.55, 0.55);
+      RRHwins_sprite.setPosition(-120, -120);
+      w.clear(sf::Color::Red);
+      w.draw(RRHwins_sprite);
+      w.display();
+    }
   }
 }
 
@@ -340,7 +375,6 @@ bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2)
   float dist_y_2 = dist_y * dist_y;
 
   float dist = sqrt(dist_x_2 + dist_y_2);
-  //std::cout << dist << std::endl;
 
   //75 is a magic number (personal space)
   if(dist <= 75)
