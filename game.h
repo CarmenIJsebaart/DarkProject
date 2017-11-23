@@ -5,7 +5,11 @@
 class game
 {
 public:
+
   game();
+
+private:
+
 };
 
 #endif // GAME_H

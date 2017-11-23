@@ -38,7 +38,6 @@ private:
 
   ///Textures
   std::vector<sf::Texture*> m_textures;
-
 };
 
 std::ostream& operator<<(std::ostream &os, const sprites_sfml&) noexcept;
