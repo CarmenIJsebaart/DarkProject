@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////
 
 bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2);
-sf::Vector2f set_position(const int quad);
+sf::Vector2f set_position(const int quad, const int size);
 
 int main()
 {
@@ -160,23 +160,28 @@ int main()
     quad_GRANDMOTHER = rand() % 4;
   }
 
+  const int n_rows = 20;
+  const int n_columns = 20;
+  const int block_size = 130;
+  const int screen_size = block_size*n_rows;
+
   //Choose a random position in the correct quadrant
-  RRH_sprite.setPosition(set_position(quad_RRH));
+  RRH_sprite.setPosition(set_position(quad_RRH, screen_size));
   sf::Vector2f RRH_pos = RRH_sprite.getPosition();
   RRH_sprite2.setPosition(RRH_pos);
   view1.move(RRH_pos);
   assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
-  WOLF_sprite.setPosition(set_position(quad_WOLF));
+  WOLF_sprite.setPosition(set_position(quad_WOLF, screen_size));
   sf::Vector2f WOLF_pos = WOLF_sprite.getPosition();
   WOLF_sprite2.setPosition(WOLF_pos);
   view2.move(WOLF_pos);
   assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
-  GRANDMOTHER_sprite.setPosition(set_position(quad_GRANDMOTHER));
+  GRANDMOTHER_sprite.setPosition(set_position(quad_GRANDMOTHER, screen_size));
 
   // define the level with a vector of tile indices
   std::vector<int> level;
 
-  for(int i = 0; i != 1600; ++i)
+  for(int i = 0; i != n_rows * n_columns; ++i)
   {
     int number = rand() % 4;
     level.push_back(number);
@@ -184,8 +189,11 @@ int main()
 
   // create the tilemap from the level definition
   tilemap map;
-  if (!map.load("tilemap.png", sf::Vector2u(130, 130), level, 40, 40))
+  if (!map.load("tilemap.png", sf::Vector2u(block_size, block_size), level, n_rows, n_columns))
     return -1;
+
+  std::cout << GRANDMOTHER_sprite.getPosition().x << std::endl;
+  std::cout << GRANDMOTHER_sprite.getPosition().y << std::endl;
 
   Gamestate state = Gamestate::running;
 
@@ -206,7 +214,7 @@ int main()
             //Player 1
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
             {
-              if(RRH_sprite.getPosition().y < 5200)
+              if(RRH_sprite.getPosition().y < block_size * n_rows)
               {
                 RRH_sprite.setRotation(180);
                 view1.move(0, 10);
@@ -217,7 +225,7 @@ int main()
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
-              if(RRH_sprite.getPosition().x < 5200)
+              if(RRH_sprite.getPosition().x < block_size * n_columns)
               {
                 RRH_sprite.setRotation(90);
                 view1.move(10, 0);
@@ -251,7 +259,7 @@ int main()
             //Player 2
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {
-              if(WOLF_sprite.getPosition().y < 5200)
+              if(WOLF_sprite.getPosition().y < block_size * n_rows)
               {
                 WOLF_sprite.setRotation(180);
                 view2.move(0, 10);
@@ -262,7 +270,7 @@ int main()
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
-              if(WOLF_sprite.getPosition().x < 5200)
+              if(WOLF_sprite.getPosition().x < block_size * n_columns)
               {
                 WOLF_sprite.setRotation(90);
                 view2.move(10, 0);
@@ -326,7 +334,7 @@ int main()
       }
       else
       {
-        state = Gamestate::game_won_by_wolf;
+        state = Gamestate::dead_grandmother_wolf_wins;
       }
       w.draw(WOLF_sprite);
       w.display();
@@ -376,20 +384,20 @@ bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2)
 
   float dist = sqrt(dist_x_2 + dist_y_2);
 
-  //75 is a magic number (personal space)
-  if(dist <= 75)
+  //50 is a magic number (personal space)
+  if(dist <= 60)
   {
     return true;
   }
   return false;
 }
 
-sf::Vector2f set_position(const int quad)
+sf::Vector2f set_position(const int quad, const int size)
 {
   if(quad == 0)
   {
-    float x = rand() % 2101;
-    float y = rand() % 2101;
+    float x = rand() % (size*3/8);
+    float y = rand() % (size*3/8);
 
     sf::Vector2f pos;
     pos.x = x;
@@ -398,8 +406,8 @@ sf::Vector2f set_position(const int quad)
   }
   else if(quad == 1)
   {
-    float x = rand() % 2100 + 3100;
-    float y = rand() % 2101;
+    float x = rand() % (size*3/8) + (size*5/8);
+    float y = rand() % (size*3/8);
 
     sf::Vector2f pos;
     pos.x = x;
@@ -408,8 +416,8 @@ sf::Vector2f set_position(const int quad)
   }
   else if(quad == 2)
   {
-    float x = rand() % 2101;
-    float y = rand() % 2100 + 3100;
+    float x = rand() % (size*3/8);
+    float y = rand() % (size*3/8) + (size*5/8);
 
     sf::Vector2f pos;
     pos.x = x;
@@ -418,8 +426,8 @@ sf::Vector2f set_position(const int quad)
   }
   else if(quad == 3)
   {
-    float x = rand() % 2100 + 3100;
-    float y = rand() % 2100 + 3100;
+    float x = rand() % (size*3/8) + (size*5/8);
+    float y = rand() % (size*3/8) + (size*5/8);
 
     sf::Vector2f pos;
     pos.x = x;
