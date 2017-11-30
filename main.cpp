@@ -54,6 +54,7 @@ int main()
   arial.loadFromFile("arial.ttf");
 
   ///Pictures of players
+  ///
   sprites_sfml sprites;
   sf::Sprite red_riding_hood = sprites.get_red_riding_hood_sprite();
   sf::Sprite red_riding_hood_shadow = sprites.get_red_riding_hood_shadow_sprite();
@@ -71,11 +72,9 @@ int main()
   ///Wolf eats red riding hood
   sf::Sprite wolf_wins_dead_red_riding_hood = sprites.get_wolf_wins_sprite();
   wolf_wins_dead_red_riding_hood.setPosition(0, 0);
-
   ///Wolf eats Grandmother
   sf::Sprite wolf_wins_dead_grandmother = sprites.get_dead_grandmother_wolf_wins();
   wolf_wins_dead_grandmother.setPosition(0, 0);
-
   ///Red Riding Hood meets grandmother
   sf::Sprite red_riding_hood_wins = sprites.get_red_riding_hood_wins();
   red_riding_hood_wins.setPosition(0, 0);
@@ -83,18 +82,12 @@ int main()
   ///Other pictures
 
   ///Grandmother picture
-  sf::Texture GRANDMOTHER;
-  GRANDMOTHER.loadFromFile("Grandmother.png");
-  sf::Sprite GRANDMOTHER_sprite(GRANDMOTHER);
+  sf::Sprite grandmother = sprites.get_grandmother();
   //Center of the picture
-  GRANDMOTHER_sprite.setOrigin(12, 12);
-
+  grandmother.setOrigin(12, 12);
   ///Hunter picture
-  sf::Texture HUNTER;
-  HUNTER.loadFromFile("Hunter.png");
-  sf::Sprite HUNTER_sprite(HUNTER);
-  //center of the picture
-  HUNTER_sprite.setOrigin(12,12);
+  sf::Sprite hunter = sprites.get_hunter();
+  hunter.setOrigin(12,12);
 
   ///////////////////////////////////////////////////////
   ///  First choose a quadrant a player has to start  ///
@@ -149,7 +142,7 @@ int main()
   wolf_shadow.setPosition(WOLF_pos);
   view2.move(WOLF_pos);
   assert(wolf.getPosition() == wolf_shadow.getPosition());
-  GRANDMOTHER_sprite.setPosition(set_position(quad_GRANDMOTHER, screen_size));
+  grandmother.setPosition(set_position(quad_GRANDMOTHER, screen_size));
 
   // define the level with a vector of tile indices
   std::vector<int> level;
@@ -165,8 +158,8 @@ int main()
   if (!map.load("tilemap.png", sf::Vector2u(block_size, block_size), level, n_rows, n_columns))
     return -1;
 
-  std::cout << GRANDMOTHER_sprite.getPosition().x << std::endl;
-  std::cout << GRANDMOTHER_sprite.getPosition().y << std::endl;
+  std::cout << grandmother.getPosition().x << std::endl;
+  std::cout << grandmother.getPosition().y << std::endl;
 
   Gamestate state = Gamestate::running;
 
@@ -301,9 +294,9 @@ int main()
       {
         state = Gamestate::game_won_by_wolf;
       }
-      if(!has_to_die(GRANDMOTHER_sprite.getPosition(), wolf.getPosition()))
+      if(!has_to_die(grandmother.getPosition(), wolf.getPosition()))
       {
-        w.draw(GRANDMOTHER_sprite);
+        w.draw(grandmother);
       }
       else
       {
