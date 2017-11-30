@@ -48,6 +48,7 @@ void create_sprites()
   file_names.push_back("Sprites/tilemap.png");
   file_names.push_back("Sprites/Tree.png");
   file_names.push_back("Sprites/Wolf_winner_screen.png");
+  file_names.push_back("Sprites/Wall.png");
 
   for (const std::string s: file_names)
   {

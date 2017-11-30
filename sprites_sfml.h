@@ -18,6 +18,7 @@ public:
   sf::Sprite& get_red_riding_hood_wins() noexcept { return m_RRH_wins_sprite; }
   sf::Sprite& get_grandmother() noexcept { return m_grandmother_sprite; }
   sf::Sprite& get_hunter() noexcept { return m_hunter_sprite; }
+  sf::Sprite& get_wall() noexcept { return m_wall_sprite; }
 
 private:
 
@@ -35,6 +36,7 @@ private:
   ///Other pictures
   sf::Sprite m_grandmother_sprite;
   sf::Sprite m_hunter_sprite;
+  sf::Sprite m_wall_sprite;
 
   ///Textures
   std::vector<sf::Texture*> m_textures;

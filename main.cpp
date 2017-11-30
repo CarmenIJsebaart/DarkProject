@@ -54,7 +54,7 @@ int main()
   arial.loadFromFile("arial.ttf");
 
   ///Pictures of players
-  ///
+
   sprites_sfml sprites;
   sf::Sprite red_riding_hood = sprites.get_red_riding_hood_sprite();
   sf::Sprite red_riding_hood_shadow = sprites.get_red_riding_hood_shadow_sprite();

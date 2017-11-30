@@ -66,6 +66,11 @@ sprites_sfml::sprites_sfml()
     m_hunter_sprite.setTexture(*texture);
     m_textures.push_back(texture);
   }
-
+  {
+    sf::Texture * const texture = new sf::Texture;
+    texture->loadFromFile("Wall.png");
+    m_wall_sprite.setTexture(*texture);
+    m_textures.push_back(texture);
+  }
 }
 
