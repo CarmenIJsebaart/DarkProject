@@ -5,6 +5,7 @@
 
 #include "game_state.h"
 #include "helper.h"
+#include "sprites_sfml.h"
 #include "tilemap.h"
 
 ////////////////////////////////////////////////////////////
@@ -27,6 +28,7 @@
 ///                                                      ///
 ////////////////////////////////////////////////////////////
 
+void set_start_position(sf::Sprite &player);
 bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2);
 sf::Vector2f set_position(const int quad, const int size);
 
@@ -52,40 +54,17 @@ int main()
   arial.loadFromFile("arial.ttf");
 
   ///Pictures of players
+  sprites_sfml sprites;
+  sf::Sprite red_riding_hood = sprites.get_red_riding_hood_sprite();
+  sf::Sprite red_riding_hood_shadow = sprites.get_red_riding_hood_shadow_sprite();
+  sf::Sprite wolf = sprites.get_wolf_sprite();
+  sf::Sprite wolf_shadow = sprites.get_wolf_shadow_sprite();
 
-  ///Red Riding Hood
-  sf::Texture RRH;
-  RRH.loadFromFile("CandlePicture_redhood.png");
-  sf::Sprite RRH_sprite(RRH);
-  //Centre of the picture
-  RRH_sprite.setOrigin(327, 323);
-  //Centre + position on screen
-  RRH_sprite.setPosition(527, 523);
-
-  sf::Texture RRH2;
-  RRH2.loadFromFile("CandlePicture_redhood2.png");
-  sf::Sprite RRH_sprite2(RRH2);
-  //Centre of the picture
-  RRH_sprite2.setOrigin(327, 323);
-  //Centre + position on screen
-  RRH_sprite2.setPosition(527, 523);
-
-  ///Wolf
-  sf::Texture WOLF;
-  WOLF.loadFromFile("CandlePicture_wolf.png");
-  sf::Sprite WOLF_sprite(WOLF);
-  //Centre of the picture
-  WOLF_sprite.setOrigin(327, 323);
-  //Centre + position on screen
-  WOLF_sprite.setPosition(527, 523);
-
-  sf::Texture WOLF2;
-  WOLF2.loadFromFile("CandlePicture_wolf2.png");
-  sf::Sprite WOLF_sprite2(WOLF2);
-  //Centre of the picture
-  WOLF_sprite2.setOrigin(327, 323);
-  //Centre + position on screen
-  WOLF_sprite2.setPosition(527, 523);
+  ///Set starting position of players
+  set_start_position(red_riding_hood);
+  set_start_position(red_riding_hood_shadow);
+  set_start_position(wolf);
+  set_start_position(wolf_shadow);
 
   ///Winner screen pictures
 
@@ -166,16 +145,16 @@ int main()
   const int screen_size = block_size*n_rows;
 
   //Choose a random position in the correct quadrant
-  RRH_sprite.setPosition(set_position(quad_RRH, screen_size));
-  sf::Vector2f RRH_pos = RRH_sprite.getPosition();
-  RRH_sprite2.setPosition(RRH_pos);
-  view1.move(RRH_pos);
-  assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
-  WOLF_sprite.setPosition(set_position(quad_WOLF, screen_size));
-  sf::Vector2f WOLF_pos = WOLF_sprite.getPosition();
-  WOLF_sprite2.setPosition(WOLF_pos);
+  red_riding_hood.setPosition(set_position(quad_RRH, screen_size));
+  sf::Vector2f red_riding_hood_pos = red_riding_hood.getPosition();
+  red_riding_hood_shadow.setPosition(red_riding_hood_pos);
+  view1.move(red_riding_hood_pos);
+  assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
+  wolf.setPosition(set_position(quad_WOLF, screen_size));
+  sf::Vector2f WOLF_pos = wolf.getPosition();
+  wolf_shadow.setPosition(WOLF_pos);
   view2.move(WOLF_pos);
-  assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+  assert(wolf.getPosition() == wolf_shadow.getPosition());
   GRANDMOTHER_sprite.setPosition(set_position(quad_GRANDMOTHER, screen_size));
 
   // define the level with a vector of tile indices
@@ -214,91 +193,91 @@ int main()
             //Player 1
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
             {
-              if(RRH_sprite.getPosition().y < block_size * n_rows)
+              if(red_riding_hood.getPosition().y < block_size * n_rows)
               {
-                RRH_sprite.setRotation(180);
+                red_riding_hood.setRotation(180);
                 view1.move(0, 10);
-                RRH_sprite.move(0, 10);
-                RRH_sprite2.move(0, 10);
-                assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+                red_riding_hood.move(0, 10);
+                red_riding_hood_shadow.move(0, 10);
+                assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
               }
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
-              if(RRH_sprite.getPosition().x < block_size * n_columns)
+              if(red_riding_hood.getPosition().x < block_size * n_columns)
               {
-                RRH_sprite.setRotation(90);
+                red_riding_hood.setRotation(90);
                 view1.move(10, 0);
-                RRH_sprite.move(10, 0);
-                RRH_sprite2.move(10, 0);
-                assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+                red_riding_hood.move(10, 0);
+                red_riding_hood_shadow.move(10, 0);
+                assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
               }
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
             {
-              if(RRH_sprite.getPosition().y > 0)
+              if(red_riding_hood.getPosition().y > 0)
               {
-                RRH_sprite.setRotation(0);
+                red_riding_hood.setRotation(0);
                 view1.move(0, -10);
-                RRH_sprite.move(0, -10);
-                RRH_sprite2.move(0, -10);
-                assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+                red_riding_hood.move(0, -10);
+                red_riding_hood_shadow.move(0, -10);
+                assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
               }
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
             {
-              if(RRH_sprite.getPosition().x > 0)
+              if(red_riding_hood.getPosition().x > 0)
               {
-                RRH_sprite.setRotation(270);
+                red_riding_hood.setRotation(270);
                 view1.move(-10, 0);
-                RRH_sprite.move(-10, 0);
-                RRH_sprite2.move(-10, 0);
-                assert(RRH_sprite.getPosition() == RRH_sprite2.getPosition());
+                red_riding_hood.move(-10, 0);
+                red_riding_hood_shadow.move(-10, 0);
+                assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
               }
             }
             //Player 2
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {
-              if(WOLF_sprite.getPosition().y < block_size * n_rows)
+              if(wolf.getPosition().y < block_size * n_rows)
               {
-                WOLF_sprite.setRotation(180);
+                wolf.setRotation(180);
                 view2.move(0, 10);
-                WOLF_sprite.move(0, 10);
-                WOLF_sprite2.move(0, 10);
-                assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+                wolf.move(0, 10);
+                wolf_shadow.move(0, 10);
+                assert(wolf.getPosition() == wolf_shadow.getPosition());
               }
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
-              if(WOLF_sprite.getPosition().x < block_size * n_columns)
+              if(wolf.getPosition().x < block_size * n_columns)
               {
-                WOLF_sprite.setRotation(90);
+                wolf.setRotation(90);
                 view2.move(10, 0);
-                WOLF_sprite.move(10, 0);
-                WOLF_sprite2.move(10, 0);
-                assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+                wolf.move(10, 0);
+                wolf_shadow.move(10, 0);
+                assert(wolf.getPosition() == wolf_shadow.getPosition());
               }
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
             {
-              if(WOLF_sprite.getPosition().y > 0)
+              if(wolf.getPosition().y > 0)
               {
-                WOLF_sprite.setRotation(0);
+                wolf.setRotation(0);
                 view2.move(0, -10);
-                WOLF_sprite.move(0, -10);
-                WOLF_sprite2.move(0, -10);
-                assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+                wolf.move(0, -10);
+                wolf_shadow.move(0, -10);
+                assert(wolf.getPosition() == wolf_shadow.getPosition());
               }
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             {
-              if(WOLF_sprite.getPosition().x > 0)
+              if(wolf.getPosition().x > 0)
               {
-                WOLF_sprite.setRotation(270);
+                wolf.setRotation(270);
                 view2.move(-10, 0);
-                WOLF_sprite.move(-10, 0);
-                WOLF_sprite2.move(-10, 0);
-                assert(WOLF_sprite.getPosition() == WOLF_sprite2.getPosition());
+                wolf.move(-10, 0);
+                wolf_shadow.move(-10, 0);
+                assert(wolf.getPosition() == wolf_shadow.getPosition());
               }
             }
             break;
@@ -311,24 +290,24 @@ int main()
 
       w.setView(view1);
       w.draw(map);
-      w.draw(WOLF_sprite2);
+      w.draw(wolf_shadow);
 
-      if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
+      if(!has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
       {
-        w.draw(RRH_sprite);
+        w.draw(red_riding_hood);
       }
 
       w.setView(view2);
       w.draw(map);
-      if(!has_to_die(RRH_sprite.getPosition(), WOLF_sprite.getPosition()))
+      if(!has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
       {
-        w.draw(RRH_sprite2);
+        w.draw(red_riding_hood_shadow);
       }
       else
       {
         state = Gamestate::game_won_by_wolf;
       }
-      if(!has_to_die(GRANDMOTHER_sprite.getPosition(), WOLF_sprite.getPosition()))
+      if(!has_to_die(GRANDMOTHER_sprite.getPosition(), wolf.getPosition()))
       {
         w.draw(GRANDMOTHER_sprite);
       }
@@ -336,7 +315,7 @@ int main()
       {
         state = Gamestate::dead_grandmother_wolf_wins;
       }
-      w.draw(WOLF_sprite);
+      w.draw(wolf);
       w.display();
     }
     if(state == Gamestate::game_won_by_wolf)
@@ -373,6 +352,14 @@ int main()
       w.display();
     }
   }
+}
+
+void set_start_position(sf::Sprite &player)
+{
+  //Centre of the picture
+  player.setOrigin(327, 323);
+  //Centre + position on screen
+  player.setPosition(527, 523);
 }
 
 bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2)

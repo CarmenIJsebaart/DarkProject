@@ -15,7 +15,7 @@ void game_won_by_RRH_screen::display()
   //Clear
   m_window.clear();
   //Picture must be drawn
-  m_window.draw(m_sprites.get_RRH_wins());
+  m_window.draw(m_sprites.get_red_riding_hood_wins());
   //Show
   m_window.display();
 }

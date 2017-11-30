@@ -22,7 +22,7 @@ sprites_sfml::sprites_sfml()
   }
   {
     sf::Texture * const texture = new sf::Texture;
-    texture->loadFromFile("CandlePicture_wolf.png.png");
+    texture->loadFromFile("CandlePicture_wolf.png");
     m_wolf_sprite.setTexture(*texture);
     m_textures.push_back(texture);
   }
