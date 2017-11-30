@@ -68,23 +68,17 @@ int main()
 
   ///Winner screen pictures
 
-  ///Wolf eats Red Riding Hood
-  sf::Texture wolfwins;
-  wolfwins.loadFromFile("Wolf_winner_screen.png");
-  sf::Sprite wolfwins_sprite(wolfwins);
-  wolfwins_sprite.setPosition(0, 0);
+  ///Wolf eats red riding hood
+  sf::Sprite wolf_wins_dead_red_riding_hood = sprites.get_wolf_wins_sprite();
+  wolf_wins_dead_red_riding_hood.setPosition(0, 0);
 
   ///Wolf eats Grandmother
-  sf::Texture wolfwins2;
-  wolfwins.loadFromFile("deadgrandmother_winner_screen.png");
-  sf::Sprite wolfwins2_sprite(wolfwins2);
-  wolfwins2_sprite.setPosition(0, 0);
+  sf::Sprite wolf_wins_dead_grandmother = sprites.get_dead_grandmother_wolf_wins();
+  wolf_wins_dead_grandmother.setPosition(0, 0);
 
   ///Red Riding Hood meets grandmother
-  sf::Texture RRHwins;
-  RRHwins.loadFromFile("RRH_winner_screen.png");
-  sf::Sprite RRHwins_sprite(RRHwins);
-  RRHwins_sprite.setPosition(0, 0);
+  sf::Sprite red_riding_hood_wins = sprites.get_red_riding_hood_wins();
+  red_riding_hood_wins.setPosition(0, 0);
 
   ///Other pictures
 
@@ -323,10 +317,10 @@ int main()
       w.setView(view1);
       view1.setViewport(sf::FloatRect(0, 0, 1, 1));
       view1.setCenter(0, 0);
-      wolfwins_sprite.setScale(0.4, 0.6);
-      wolfwins_sprite.setPosition(-180, -175);
+      wolf_wins_dead_red_riding_hood.setScale(0.4, 0.6);
+      wolf_wins_dead_red_riding_hood.setPosition(-180, -175);
       w.clear(sf::Color::Red);
-      w.draw(wolfwins_sprite);
+      w.draw(wolf_wins_dead_red_riding_hood);
       w.display();
     }
     if(state == Gamestate::dead_grandmother_wolf_wins)
@@ -334,10 +328,10 @@ int main()
       w.setView(view1);
       view1.setViewport(sf::FloatRect(0, 0, 1, 1));
       view1.setCenter(0, 0);
-      wolfwins2_sprite.setScale(0.4, 0.6);
-      wolfwins2_sprite.setPosition(-170, -200);
+      wolf_wins_dead_grandmother.setScale(0.4, 0.6);
+      wolf_wins_dead_grandmother.setPosition(-170, -200);
       w.clear(sf::Color::Red);
-      w.draw(wolfwins2_sprite);
+      w.draw(wolf_wins_dead_grandmother);
       w.display();
     }
     if(state == Gamestate::game_won_by_RRH)
@@ -345,10 +339,10 @@ int main()
       w.setView(view1);
       view1.setViewport(sf::FloatRect(0, 0, 1, 1));
       view1.setCenter(0, 0);
-      RRHwins_sprite.setScale(0.55, 0.55);
-      RRHwins_sprite.setPosition(-120, -120);
+      red_riding_hood_wins.setScale(0.55, 0.55);
+      red_riding_hood_wins.setPosition(-120, -120);
       w.clear(sf::Color::Red);
-      w.draw(RRHwins_sprite);
+      w.draw(red_riding_hood_wins);
       w.display();
     }
   }
@@ -371,7 +365,7 @@ bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2)
 
   float dist = sqrt(dist_x_2 + dist_y_2);
 
-  //50 is a magic number (personal space)
+  //60 is a magic number (personal space)
   if(dist <= 60)
   {
     return true;
