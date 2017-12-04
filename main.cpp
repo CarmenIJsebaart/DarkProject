@@ -298,6 +298,18 @@ int main()
 
       if(programstate == Programstate::game_won_by_wolf)
       {
+        while(w.pollEvent(event))
+        {
+          switch(event.type)
+          {
+            case sf::Event::Closed:
+              w.close();
+              break;
+            default:
+              break;
+          }
+        }
+
         single_screen(view1);
         wolf_wins_dead_red_riding_hood.setScale(0.4, 0.6);
         wolf_wins_dead_red_riding_hood.setPosition(-180, -175);
@@ -310,6 +322,18 @@ int main()
 
       if(programstate == Programstate::dead_grandmother_wolf_wins)
       {
+        while(w.pollEvent(event))
+        {
+          switch(event.type)
+          {
+            case sf::Event::Closed:
+              w.close();
+              break;
+            default:
+              break;
+          }
+        }
+
         single_screen(view1);
         wolf_wins_dead_grandmother.setScale(0.4, 0.6);
         wolf_wins_dead_grandmother.setPosition(-170, -200);
@@ -322,6 +346,19 @@ int main()
 
       if(programstate == Programstate::game_won_by_RRH)
       {
+
+        while(w.pollEvent(event))
+        {
+          switch(event.type)
+          {
+            case sf::Event::Closed:
+              w.close();
+              break;
+            default:
+              break;
+          }
+        }
+
         single_screen(view1);
         red_riding_hood_wins.setScale(0.55, 0.55);
         red_riding_hood_wins.setPosition(-120, -120);
