@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "game_state.h"
+#include "program_state.h"
 
 class home_screen
 {
@@ -20,7 +20,7 @@ public:
   void execute();
 
   ///Obtain the current or state after execute
-  Gamestate get_state() const noexcept { return m_state; }
+  Programstate get_state() const noexcept { return m_state; }
 
 private:
 
@@ -31,7 +31,7 @@ private:
   sf::Text m_begin_text;
 
   ///In which state is the program while and directly after this menu?
-  Gamestate m_state;
+  Programstate m_state;
 
   ///Window used for displayal
   sf::RenderWindow& m_window;

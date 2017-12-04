@@ -5,6 +5,7 @@
 
 #include "game_state.h"
 #include "helper.h"
+#include "program_state.h"
 #include "sprites_sfml.h"
 #include "tilemap.h"
 
@@ -28,9 +29,13 @@
 ///                                                      ///
 ////////////////////////////////////////////////////////////
 
-void set_start_position(sf::Sprite &player);
 bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2);
+void move_down(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
+void move_left(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
+void move_right(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
+void move_up(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
 sf::Vector2f set_position(const int quad, const int size);
+void set_start_position(sf::Sprite &player);
 
 int main()
 {
@@ -38,15 +43,6 @@ int main()
   const int w_size_y = 400;
   sf::RenderWindow w(sf::VideoMode(w_size_x, w_size_y), "DarkProject",
     sf::Style::Titlebar | sf::Style::Close);
-
-  sf::View view1, view2;
-  view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1));
-  view1.setSize(w_size_x/2, w_size_y);
-  view1.setCenter(0,0);
-
-  view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1));
-  view2.setSize(w_size_x/2, w_size_y);
-  view2.setCenter(0,0);
 
   create_resources();
 
@@ -131,6 +127,8 @@ int main()
   const int block_size = 130;
   const int screen_size = block_size*n_rows;
 
+  sf::View view1, view2;
+
   //Choose a random position in the correct quadrant
   red_riding_hood.setPosition(set_position(quad_RRH, screen_size));
   sf::Vector2f red_riding_hood_pos = red_riding_hood.getPosition();
@@ -161,192 +159,182 @@ int main()
   std::cout << grandmother.getPosition().x << std::endl;
   std::cout << grandmother.getPosition().y << std::endl;
 
-  Gamestate state = Gamestate::running;
+  Gamestate gamestate = Gamestate::running;
+  Programstate programstate = Programstate::home;
 
   while(w.isOpen())
   {
     sf::Event event;
 
-    while(state == Gamestate::running)
+    while(gamestate == Gamestate::running)
     {
-      while(w.pollEvent(event))
+      if(programstate == Programstate::home)
       {
-        switch(event.type)
+        while(w.pollEvent(event))
         {
-          case sf::Event::Closed:
-            w.close();
-            break;
-          case sf::Event::KeyPressed:
-            //Player 1
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-            {
-              if(red_riding_hood.getPosition().y < block_size * n_rows)
+          switch(event.type)
+          {
+            case sf::Event::Closed:
+              w.close();
+              break;
+            case sf::Event::KeyPressed:
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
               {
-                red_riding_hood.setRotation(180);
-                view1.move(0, 10);
-                red_riding_hood.move(0, 10);
-                red_riding_hood_shadow.move(0, 10);
-                assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
+                programstate = Programstate::battle;
               }
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-            {
-              if(red_riding_hood.getPosition().x < block_size * n_columns)
-              {
-                red_riding_hood.setRotation(90);
-                view1.move(10, 0);
-                red_riding_hood.move(10, 0);
-                red_riding_hood_shadow.move(10, 0);
-                assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
-              }
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-            {
-              if(red_riding_hood.getPosition().y > 0)
-              {
-                red_riding_hood.setRotation(0);
-                view1.move(0, -10);
-                red_riding_hood.move(0, -10);
-                red_riding_hood_shadow.move(0, -10);
-                assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
-              }
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-            {
-              if(red_riding_hood.getPosition().x > 0)
-              {
-                red_riding_hood.setRotation(270);
-                view1.move(-10, 0);
-                red_riding_hood.move(-10, 0);
-                red_riding_hood_shadow.move(-10, 0);
-                assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
-              }
-            }
-            //Player 2
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            {
-              if(wolf.getPosition().y < block_size * n_rows)
-              {
-                wolf.setRotation(180);
-                view2.move(0, 10);
-                wolf.move(0, 10);
-                wolf_shadow.move(0, 10);
-                assert(wolf.getPosition() == wolf_shadow.getPosition());
-              }
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            {
-              if(wolf.getPosition().x < block_size * n_columns)
-              {
-                wolf.setRotation(90);
-                view2.move(10, 0);
-                wolf.move(10, 0);
-                wolf_shadow.move(10, 0);
-                assert(wolf.getPosition() == wolf_shadow.getPosition());
-              }
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            {
-              if(wolf.getPosition().y > 0)
-              {
-                wolf.setRotation(0);
-                view2.move(0, -10);
-                wolf.move(0, -10);
-                wolf_shadow.move(0, -10);
-                assert(wolf.getPosition() == wolf_shadow.getPosition());
-              }
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            {
-              if(wolf.getPosition().x > 0)
-              {
-                wolf.setRotation(270);
-                view2.move(-10, 0);
-                wolf.move(-10, 0);
-                wolf_shadow.move(-10, 0);
-                assert(wolf.getPosition() == wolf_shadow.getPosition());
-              }
-            }
-            break;
-        default:
-            break;
+            default:
+              break;
+          }
         }
       }
+      if(programstate == Programstate::battle)
+      {
+        view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1));
+        view1.setSize(w_size_x/2, w_size_y);
+        view1.setCenter(0,0);
+        view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1));
+        view2.setSize(w_size_x/2, w_size_y);
+        view2.setCenter(0,0);
 
-      w.clear();
+        while(w.pollEvent(event))
+        {
+          switch(event.type)
+          {
+            case sf::Event::Closed:
+              w.close();
+              break;
+            case sf::Event::KeyPressed:
+              //Player 1
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+              {
+                if(red_riding_hood.getPosition().y < block_size * n_rows)
+                {
+                  move_down(red_riding_hood, view1, red_riding_hood_shadow);
+                }
+              }
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+              {
+                if(red_riding_hood.getPosition().x < block_size * n_columns)
+                {
+                  move_right(red_riding_hood, view1, red_riding_hood_shadow);
+                }
+              }
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+              {
+                if(red_riding_hood.getPosition().y > 0)
+                {
+                  move_up(red_riding_hood, view1, red_riding_hood_shadow);
+                }
+              }
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+              {
+                if(red_riding_hood.getPosition().x > 0)
+                {
+                  move_left(red_riding_hood, view1, red_riding_hood_shadow);
+                }
+              }
+              //Player 2
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+              {
+                if(wolf.getPosition().y < block_size * n_rows)
+                {
+                  move_down(wolf, view2, wolf_shadow);
+                }
+              }
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+              {
+                if(wolf.getPosition().x < block_size * n_columns)
+                {
+                  move_right(wolf, view2, wolf_shadow);
+                }
+              }
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+              {
+                if(wolf.getPosition().y > 0)
+                {
+                  move_up(wolf, view2, wolf_shadow);
+                }
+              }
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+              {
+                if(wolf.getPosition().x > 0)
+                {
+                  move_left(wolf, view2, wolf_shadow);
+                }
+              }
+              break;
+          default:
+              break;
+          }
+        }
 
-      w.setView(view1);
-      w.draw(map);
-      w.draw(wolf_shadow);
+        w.clear();
 
-      if(!has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
-      {
-        w.draw(red_riding_hood);
-      }
+        w.setView(view1);
+        w.draw(map);
+        w.draw(wolf_shadow);
 
-      w.setView(view2);
-      w.draw(map);
-      if(!has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
-      {
-        w.draw(red_riding_hood_shadow);
+        if(!has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
+        {
+          w.draw(red_riding_hood);
+        }
+
+        w.setView(view2);
+        w.draw(map);
+        if(!has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
+        {
+          w.draw(red_riding_hood_shadow);
+        }
+        else
+        {
+          programstate = Programstate::game_won_by_wolf;
+        }
+        if(!has_to_die(grandmother.getPosition(), wolf.getPosition()))
+        {
+          w.draw(grandmother);
+        }
+        else
+        {
+          programstate = Programstate::dead_grandmother_wolf_wins;
+        }
+        w.draw(wolf);
+        w.display();
       }
-      else
+      if(programstate == Programstate::game_won_by_wolf)
       {
-        state = Gamestate::game_won_by_wolf;
+        w.setView(view1);
+        view1.setViewport(sf::FloatRect(0, 0, 1, 1));
+        view1.setCenter(0, 0);
+        wolf_wins_dead_red_riding_hood.setScale(0.4, 0.6);
+        wolf_wins_dead_red_riding_hood.setPosition(-180, -175);
+        w.clear(sf::Color::Red);
+        w.draw(wolf_wins_dead_red_riding_hood);
+        w.display();
       }
-      if(!has_to_die(grandmother.getPosition(), wolf.getPosition()))
+      if(programstate == Programstate::dead_grandmother_wolf_wins)
       {
-        w.draw(grandmother);
+        w.setView(view1);
+        view1.setViewport(sf::FloatRect(0, 0, 1, 1));
+        view1.setCenter(0, 0);
+        wolf_wins_dead_grandmother.setScale(0.4, 0.6);
+        wolf_wins_dead_grandmother.setPosition(-170, -200);
+        w.clear(sf::Color::Red);
+        w.draw(wolf_wins_dead_grandmother);
+        w.display();
       }
-      else
+      if(programstate == Programstate::game_won_by_RRH)
       {
-        state = Gamestate::dead_grandmother_wolf_wins;
+        w.setView(view1);
+        view1.setViewport(sf::FloatRect(0, 0, 1, 1));
+        view1.setCenter(0, 0);
+        red_riding_hood_wins.setScale(0.55, 0.55);
+        red_riding_hood_wins.setPosition(-120, -120);
+        w.clear(sf::Color::Red);
+        w.draw(red_riding_hood_wins);
+        w.display();
       }
-      w.draw(wolf);
-      w.display();
-    }
-    if(state == Gamestate::game_won_by_wolf)
-    {
-      w.setView(view1);
-      view1.setViewport(sf::FloatRect(0, 0, 1, 1));
-      view1.setCenter(0, 0);
-      wolf_wins_dead_red_riding_hood.setScale(0.4, 0.6);
-      wolf_wins_dead_red_riding_hood.setPosition(-180, -175);
-      w.clear(sf::Color::Red);
-      w.draw(wolf_wins_dead_red_riding_hood);
-      w.display();
-    }
-    if(state == Gamestate::dead_grandmother_wolf_wins)
-    {
-      w.setView(view1);
-      view1.setViewport(sf::FloatRect(0, 0, 1, 1));
-      view1.setCenter(0, 0);
-      wolf_wins_dead_grandmother.setScale(0.4, 0.6);
-      wolf_wins_dead_grandmother.setPosition(-170, -200);
-      w.clear(sf::Color::Red);
-      w.draw(wolf_wins_dead_grandmother);
-      w.display();
-    }
-    if(state == Gamestate::game_won_by_RRH)
-    {
-      w.setView(view1);
-      view1.setViewport(sf::FloatRect(0, 0, 1, 1));
-      view1.setCenter(0, 0);
-      red_riding_hood_wins.setScale(0.55, 0.55);
-      red_riding_hood_wins.setPosition(-120, -120);
-      w.clear(sf::Color::Red);
-      w.draw(red_riding_hood_wins);
-      w.display();
     }
   }
-}
-
-void set_start_position(sf::Sprite &player)
-{
-  //Centre of the picture
-  player.setOrigin(327, 323);
-  //Centre + position on screen
-  player.setPosition(527, 523);
 }
 
 bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2)
@@ -364,6 +352,42 @@ bool has_to_die(sf::Vector2f pos1, sf::Vector2f pos2)
     return true;
   }
   return false;
+}
+
+void move_down(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow)
+{
+  player.setRotation(180);
+  view.move(0, 10);
+  player.move(0, 10);
+  player_shadow.move(0, 10);
+  assert(player.getPosition() == player_shadow.getPosition());
+}
+
+void move_left(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow)
+{
+  player.setRotation(270);
+  view.move(-10, 0);
+  player.move(-10, 0);
+  player_shadow.move(-10, 0);
+  assert(player.getPosition() == player_shadow.getPosition());
+}
+
+void move_right(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow)
+{
+  player.setRotation(90);
+  view.move(10, 0);
+  player.move(10, 0);
+  player_shadow.move(10, 0);
+  assert(player.getPosition() == player_shadow.getPosition());
+}
+
+void move_up(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow)
+{
+  player.setRotation(0);
+  view.move(0, -10);
+  player.move(0, -10);
+  player_shadow.move(0, -10);
+  assert(player.getPosition() == player_shadow.getPosition());
 }
 
 sf::Vector2f set_position(const int quad, const int size)
@@ -409,4 +433,12 @@ sf::Vector2f set_position(const int quad, const int size)
     return pos;
   }
   return sf::Vector2f(0,0);
+}
+
+void set_start_position(sf::Sprite &player)
+{
+  //Centre of the picture
+  player.setOrigin(327, 323);
+  //Centre + position on screen
+  player.setPosition(527, 523);
 }

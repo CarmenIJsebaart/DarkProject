@@ -22,7 +22,7 @@ void game_won_by_wolf_screen::display()
 
 void game_won_by_wolf_screen::execute()
 {
-  assert(m_state == Gamestate::game_won_by_wolf);
+  assert(m_state == Programstate::game_won_by_wolf);
 
   while(m_window.isOpen()) {
     sf::Event event;
@@ -32,11 +32,11 @@ void game_won_by_wolf_screen::execute()
     }
     display();
     //Quit
-    if(m_state == Gamestate::quit) return;
+    if(m_state == Programstate::quit) return;
     //Go back to first menu
-    if(m_state == Gamestate::home) return;
+    if(m_state == Programstate::home) return;
     //Stay here
-    assert(m_state == Gamestate::game_won_by_wolf);
+    assert(m_state == Programstate::game_won_by_wolf);
   }
 }
 
@@ -45,16 +45,16 @@ void game_won_by_wolf_screen::process_event(const sf::Event& event)
   switch(event.type) //!OCLINT will not switch on all cases: there are too many of those
   {
     case sf::Event::Closed:
-      m_state = Gamestate::quit;
+      m_state = Programstate::quit;
       break;
     case sf::Event::KeyPressed:
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::N))
       {
-        m_state = Gamestate::home;
+        m_state = Programstate::home;
       }
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
       {
-        m_state = Gamestate::quit;
+        m_state = Programstate::quit;
       }
       break;
     default:

@@ -5,7 +5,7 @@ home_screen::home_screen(
   sf::RenderWindow& window
 ) : m_font{},
     m_begin_text{},
-    m_state{Gamestate::home},
+    m_state{Programstate::home},
     m_window{window}
 {
 
@@ -37,15 +37,15 @@ void home_screen::display()
 
 void home_screen::execute()
 {
-  assert(m_state == Gamestate::home);
+  assert(m_state == Programstate::home);
 
   while (1)
   {
     //Quit
-    if (m_state == Gamestate::quit) return;
+    if (m_state == Programstate::quit) return;
     //Next screen
-    if (m_state == Gamestate::running) return;
+    if (m_state == Programstate::battle) return;
     //Stay here
-    assert(m_state == Gamestate::home);
+    assert(m_state == Programstate::home);
   }
 }

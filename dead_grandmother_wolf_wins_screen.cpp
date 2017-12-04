@@ -5,7 +5,7 @@
 dead_grandmother_wolf_wins_screen::dead_grandmother_wolf_wins_screen(
   sprites_sfml& sprites,
   sf::RenderWindow& window)
-:   m_state{Gamestate::dead_grandmother_wolf_wins},
+:   m_state{Programstate::dead_grandmother_wolf_wins},
     m_sprites(sprites),
     m_window{window}
 {
@@ -23,7 +23,7 @@ void dead_grandmother_wolf_wins_screen::display()
 
 void dead_grandmother_wolf_wins_screen::execute()
 {
-  assert(m_state == Gamestate::dead_grandmother_wolf_wins);
+  assert(m_state == Programstate::dead_grandmother_wolf_wins);
 
   while(m_window.isOpen()) {
     sf::Event event;
@@ -33,11 +33,11 @@ void dead_grandmother_wolf_wins_screen::execute()
     }
     display();
     //Quit
-    if(m_state == Gamestate::quit) return;
+    if(m_state == Programstate::quit) return;
     //Go back to first menu
-    if(m_state == Gamestate::home) return;
+    if(m_state == Programstate::home) return;
     //Stay here
-    assert(m_state == Gamestate::dead_grandmother_wolf_wins);
+    assert(m_state == Programstate::dead_grandmother_wolf_wins);
   }
 }
 
@@ -46,16 +46,16 @@ void dead_grandmother_wolf_wins_screen::process_event(const sf::Event& event)
   switch(event.type) //!OCLINT will not switch on all cases: there are too many of those
   {
     case sf::Event::Closed:
-      m_state = Gamestate::quit;
+      m_state = Programstate::quit;
       break;
     case sf::Event::KeyPressed:
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::N))
       {
-        m_state = Gamestate::home;
+        m_state = Programstate::home;
       }
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
       {
-        m_state = Gamestate::quit;
+        m_state = Programstate::quit;
       }
       break;
     default:

@@ -3,7 +3,7 @@
 
 #include <cassert>
 #include <SFML/Graphics.hpp>
-#include "game_state.h"
+#include "program_state.h"
 #include "sprites_sfml.h"
 
 class game_won_by_RRH_screen
@@ -18,7 +18,7 @@ public:
   void execute();
 
   ///Obtain the current or state after execute
-  Gamestate get_state() const noexcept { return m_state; }
+  Programstate get_state() const noexcept { return m_state; }
 
   ///Handle input and show this screen once, to be used in testing only
   void tick();
@@ -27,7 +27,7 @@ private:
 
   sprites_sfml& m_sprites;
 
-  Gamestate m_state;
+  Programstate m_state;
 
   ///Window used for displayal
   sf::RenderWindow& m_window;

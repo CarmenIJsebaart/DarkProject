@@ -3,7 +3,7 @@
 
 #include <cassert>
 #include <SFML/Graphics.hpp>
-#include "game_state.h"
+#include "program_state.h"
 #include "sprites_sfml.h"
 
 class dead_grandmother_wolf_wins_screen
@@ -15,14 +15,14 @@ public:
   );
 
   ///Get the current state of the program
-  Gamestate get_state() const noexcept { return m_state; }
+  Programstate get_state() const noexcept { return m_state; }
 
   void execute();
 
 private:
 
   ///The current state of the program
-  Gamestate m_state;
+  Programstate m_state;
 
   ///Text of which player has won
   sprites_sfml& m_sprites;
