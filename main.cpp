@@ -36,6 +36,8 @@ void move_right(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
 void move_up(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
 sf::Vector2f set_start_position(const int quad, const int size);
 void set_position(sf::Sprite &player);
+void single_screen(sf::View &view);
+void split_screen(sf::View &view1, sf::View &view2, const int w_size_x, const int w_size_y);
 
 int main()
 {
@@ -190,12 +192,7 @@ int main()
       }
       if(programstate == Programstate::battle)
       {
-        view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1));
-        view1.setSize(w_size_x/2, w_size_y);
-        view1.setCenter(0,0);
-        view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1));
-        view2.setSize(w_size_x/2, w_size_y);
-        view2.setCenter(0,0);
+        split_screen(view1, view2, w_size_x, w_size_y);
 
         while(w.pollEvent(event))
         {
@@ -298,33 +295,33 @@ int main()
 
       if(programstate == Programstate::game_won_by_wolf)
       {
-        w.setView(view1);
-        view1.setViewport(sf::FloatRect(0, 0, 1, 1));
-        view1.setCenter(0, 0);
+        single_screen(view1);
         wolf_wins_dead_red_riding_hood.setScale(0.4, 0.6);
         wolf_wins_dead_red_riding_hood.setPosition(-180, -175);
+
+        w.setView(view1);
         w.clear(sf::Color::Red);
         w.draw(wolf_wins_dead_red_riding_hood);
         w.display();
       }
       if(programstate == Programstate::dead_grandmother_wolf_wins)
       {
-        w.setView(view1);
-        view1.setViewport(sf::FloatRect(0, 0, 1, 1));
-        view1.setCenter(0, 0);
+        single_screen(view1);
         wolf_wins_dead_grandmother.setScale(0.4, 0.6);
         wolf_wins_dead_grandmother.setPosition(-170, -200);
+
+        w.setView(view1);
         w.clear(sf::Color::Red);
         w.draw(wolf_wins_dead_grandmother);
         w.display();
       }
       if(programstate == Programstate::game_won_by_RRH)
       {
-        w.setView(view1);
-        view1.setViewport(sf::FloatRect(0, 0, 1, 1));
-        view1.setCenter(0, 0);
+        single_screen(view1);
         red_riding_hood_wins.setScale(0.55, 0.55);
         red_riding_hood_wins.setPosition(-120, -120);
+
+        w.setView(view1);
         w.clear(sf::Color::Red);
         w.draw(red_riding_hood_wins);
         w.display();
@@ -437,4 +434,20 @@ void set_position(sf::Sprite &player)
   player.setOrigin(327, 323);
   //Centre + position on screen
   player.setPosition(527, 523);
+}
+
+void single_screen(sf::View& view)
+{
+  view.setViewport(sf::FloatRect(0, 0, 1, 1));
+  view.setCenter(0, 0);
+}
+
+void split_screen(sf::View& view1, sf::View& view2, const int w_size_x, const int w_size_y)
+{
+  view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1));
+  view1.setSize(w_size_x/2, w_size_y);
+  view1.setCenter(0,0);
+  view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1));
+  view2.setSize(w_size_x/2, w_size_y);
+  view2.setCenter(0,0);
 }
