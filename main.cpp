@@ -133,8 +133,6 @@ int main()
   const int block_size = 130;
   const int screen_size = block_size*n_rows;
 
-  sf::View view1, view2;
-
   //Choose a random position in the correct quadrant
   red_riding_hood.setPosition(set_start_position(quad_RRH, screen_size));
   sf::Vector2f red_riding_hood_pos = red_riding_hood.getPosition();
@@ -164,6 +162,14 @@ int main()
   Gamestate gamestate = Gamestate::running;
   Programstate programstate = Programstate::home;
 
+  sf::View view1, view2;
+  sf::Text home_text;
+  home_text.setString("Press Space to Start");
+  home_text.setFont(arial);
+  home_text.setColor(sf::Color::Black);
+  home_text.setCharacterSize(86);
+  home_text.setPosition(sf::Vector2f(0, 125));
+
   while(w.isOpen())
   {
     sf::Event event;
@@ -188,6 +194,10 @@ int main()
               break;
           }
         }
+
+        w.clear(sf::Color::Red);
+        w.draw(home_text);
+        w.display();
       }
 
       if(programstate == Programstate::battle)
