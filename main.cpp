@@ -34,34 +34,36 @@ void move_down(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
 void move_left(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
 void move_right(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
 void move_up(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow);
-sf::Vector2f set_position(const int quad, const int size);
-void set_start_position(sf::Sprite &player);
+sf::Vector2f set_start_position(const int quad, const int size);
+void set_position(sf::Sprite &player);
 
 int main()
 {
+  ///Create a window
   const int w_size_x = 800;
   const int w_size_y = 400;
   sf::RenderWindow w(sf::VideoMode(w_size_x, w_size_y), "DarkProject",
     sf::Style::Titlebar | sf::Style::Close);
 
+  ///Create resources
   create_resources();
 
+  ///Font
   sf::Font arial;
   arial.loadFromFile("arial.ttf");
 
-  ///Pictures of players
-
+  ///Player sprites
   sprites_sfml sprites;
   sf::Sprite red_riding_hood = sprites.get_red_riding_hood_sprite();
   sf::Sprite red_riding_hood_shadow = sprites.get_red_riding_hood_shadow_sprite();
   sf::Sprite wolf = sprites.get_wolf_sprite();
   sf::Sprite wolf_shadow = sprites.get_wolf_shadow_sprite();
 
-  ///Set starting position of players
-  set_start_position(red_riding_hood);
-  set_start_position(red_riding_hood_shadow);
-  set_start_position(wolf);
-  set_start_position(wolf_shadow);
+  ///Set position of players
+  set_position(red_riding_hood);
+  set_position(red_riding_hood_shadow);
+  set_position(wolf);
+  set_position(wolf_shadow);
 
   ///Winner screen pictures
 
@@ -83,27 +85,29 @@ int main()
   grandmother.setOrigin(12, 12);
   ///Hunter picture
   sf::Sprite hunter = sprites.get_hunter();
+  //Center of the picture
   hunter.setOrigin(12,12);
 
   ///////////////////////////////////////////////////////
-  ///  First choose a quadrant a player has to start  ///
+  ///                                                 ///
+  /// First choose a quadrant a player has to start   ///
   ///  in. Then choose a random position in this      ///
   ///  quadrant.                                      ///
   ///   ___________________________________________   ///
   ///  |                     |                     |  ///
   ///  |                     |                     |  ///
   ///  |    hor.             |    hor.             |  ///
-  ///  |    0-2100           |    3100-5200        |  ///
+  ///  |                     |                     |  ///
   ///  |    ver.             |    ver.             |  ///
-  ///  |    0-2100           |    0-2100           |  ///
+  ///  |                     |                     |  ///
   ///  |                     |                     |  ///
   ///  |_____________________|_____________________|  ///
   ///  |                     |                     |  ///
   ///  |                     |                     |  ///
   ///  |    hor.             |    hor.             |  ///
-  ///  |    0-2100           |    3100-5200        |  ///
+  ///  |                     |                     |  ///
   ///  |    ver.             |    ver.             |  ///
-  ///  |    3100-5200        |    3100-5200        |  ///
+  ///  |                     |                     |  ///
   ///  |                     |                     |  ///
   ///  |_____________________|_____________________|  ///
   ///                                                 ///
@@ -130,19 +134,19 @@ int main()
   sf::View view1, view2;
 
   //Choose a random position in the correct quadrant
-  red_riding_hood.setPosition(set_position(quad_RRH, screen_size));
+  red_riding_hood.setPosition(set_start_position(quad_RRH, screen_size));
   sf::Vector2f red_riding_hood_pos = red_riding_hood.getPosition();
   red_riding_hood_shadow.setPosition(red_riding_hood_pos);
   view1.move(red_riding_hood_pos);
   assert(red_riding_hood.getPosition() == red_riding_hood_shadow.getPosition());
-  wolf.setPosition(set_position(quad_WOLF, screen_size));
+  wolf.setPosition(set_start_position(quad_WOLF, screen_size));
   sf::Vector2f WOLF_pos = wolf.getPosition();
   wolf_shadow.setPosition(WOLF_pos);
   view2.move(WOLF_pos);
   assert(wolf.getPosition() == wolf_shadow.getPosition());
-  grandmother.setPosition(set_position(quad_GRANDMOTHER, screen_size));
+  grandmother.setPosition(set_start_position(quad_GRANDMOTHER, screen_size));
 
-  // define the level with a vector of tile indices
+  //Define the level with a vector of tile indices
   std::vector<int> level;
 
   for(int i = 0; i != n_rows * n_columns; ++i)
@@ -151,13 +155,10 @@ int main()
     level.push_back(number);
   }
 
-  // create the tilemap from the level definition
+  //Create the tilemap from the level definition
   tilemap map;
   if (!map.load("tilemap.png", sf::Vector2u(block_size, block_size), level, n_rows, n_columns))
     return -1;
-
-  std::cout << grandmother.getPosition().x << std::endl;
-  std::cout << grandmother.getPosition().y << std::endl;
 
   Gamestate gamestate = Gamestate::running;
   Programstate programstate = Programstate::home;
@@ -268,38 +269,33 @@ int main()
           }
         }
 
+        if(has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
+        {
+          programstate = Programstate::game_won_by_wolf;
+        }
+
+        if(has_to_die(grandmother.getPosition(), wolf.getPosition()))
+        {
+          programstate = Programstate::dead_grandmother_wolf_wins;
+        }
+
         w.clear();
 
         w.setView(view1);
         w.draw(map);
         w.draw(wolf_shadow);
-
-        if(!has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
-        {
-          w.draw(red_riding_hood);
-        }
+        w.draw(red_riding_hood);
+        w.draw(grandmother);
 
         w.setView(view2);
         w.draw(map);
-        if(!has_to_die(red_riding_hood.getPosition(), wolf.getPosition()))
-        {
-          w.draw(red_riding_hood_shadow);
-        }
-        else
-        {
-          programstate = Programstate::game_won_by_wolf;
-        }
-        if(!has_to_die(grandmother.getPosition(), wolf.getPosition()))
-        {
-          w.draw(grandmother);
-        }
-        else
-        {
-          programstate = Programstate::dead_grandmother_wolf_wins;
-        }
+        w.draw(red_riding_hood_shadow);
         w.draw(wolf);
+        w.draw(grandmother);
+
         w.display();
       }
+
       if(programstate == Programstate::game_won_by_wolf)
       {
         w.setView(view1);
@@ -390,7 +386,7 @@ void move_up(sf::Sprite &player, sf::View &view, sf::Sprite &player_shadow)
   assert(player.getPosition() == player_shadow.getPosition());
 }
 
-sf::Vector2f set_position(const int quad, const int size)
+sf::Vector2f set_start_position(const int quad, const int size)
 {
   if(quad == 0)
   {
@@ -435,7 +431,7 @@ sf::Vector2f set_position(const int quad, const int size)
   return sf::Vector2f(0,0);
 }
 
-void set_start_position(sf::Sprite &player)
+void set_position(sf::Sprite &player)
 {
   //Centre of the picture
   player.setOrigin(327, 323);
