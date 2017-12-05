@@ -5,7 +5,7 @@ home_screen::home_screen(
   sf::RenderWindow& window
 ) : m_font{},
     m_begin_text{},
-    m_state{Programstate::home},
+    m_program_state{Programstate::home},
     m_window{window}
 {
 
@@ -13,14 +13,14 @@ home_screen::home_screen(
 
   //Begin text
   m_begin_text.setFont(m_font);
-  m_begin_text.setPosition(sf::Vector2f(75, 150));
+  m_begin_text.setPosition(sf::Vector2f(0, 125));
   #if SFML_VERSION_MINOR > 3
-  m_begin_text.setFillColor(sf::Color::White);
+  m_begin_text.setFillColor(sf::Color::Black);
   #else
-  m_begin_text.setColor(sf::Color::White);
+  m_begin_text.setColor(sf::Color::Black);
   #endif
-  m_begin_text.setCharacterSize(60);
-  m_begin_text.setString("Press Enter To Start!");
+  m_begin_text.setCharacterSize(67);
+  m_begin_text.setString("Press Space to Start");
 }
 
 void home_screen::display()
@@ -37,15 +37,37 @@ void home_screen::display()
 
 void home_screen::execute()
 {
-  assert(m_state == Programstate::home);
+  assert(m_program_state == Programstate::home);
 
   while (1)
   {
     //Quit
-    if (m_state == Programstate::quit) return;
+    if (m_program_state == Programstate::quit) return;
     //Next screen
-    if (m_state == Programstate::battle) return;
+    if (m_program_state == Programstate::battle) return;
     //Stay here
-    assert(m_state == Programstate::home);
+    assert(m_program_state == Programstate::home);
+  }
+}
+
+void home_screen::process_event(const sf::Event& event)
+{
+  switch(event.type) //!OCLINT will not switch on all cases: there are too many of those
+  {
+    case sf::Event::Closed:
+      m_program_state = Programstate::quit;
+      break;
+    case sf::Event::KeyPressed:
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+      {
+        m_program_state = Programstate::battle;
+      }
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+      {
+        m_program_state = Programstate::quit;
+      }
+      break;
+    default:
+      break;
   }
 }

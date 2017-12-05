@@ -18,16 +18,13 @@ public:
   void execute();
 
   ///Obtain the current or state after execute
-  Programstate get_state() const noexcept { return m_state; }
-
-  ///Handle input and show this screen once, to be used in testing only
-  void tick();
+  Programstate get_state() const noexcept { return m_program_state; }
 
 private:
 
-  sprites_sfml& m_sprites;
+  Programstate m_program_state;
 
-  Programstate m_state;
+  sprites_sfml& m_sprites;
 
   ///Window used for displayal
   sf::RenderWindow& m_window;

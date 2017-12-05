@@ -5,7 +5,8 @@
 game_won_by_RRH_screen::game_won_by_RRH_screen(
   sf::RenderWindow &window,
   sprites_sfml &sprites
-) : m_sprites(sprites),
+) : m_program_state{Programstate::game_won_by_RRH},
+    m_sprites(sprites),
     m_window{window}
 {
 }
@@ -22,7 +23,7 @@ void game_won_by_RRH_screen::display()
 
 void game_won_by_RRH_screen::execute()
 {
-  assert(m_state == Programstate::game_won_by_RRH);
+  assert(m_program_state == Programstate::game_won_by_RRH);
 
   while(m_window.isOpen()) {
     sf::Event event;
@@ -32,11 +33,11 @@ void game_won_by_RRH_screen::execute()
     }
     display();
     //Quit
-    if(m_state == Programstate::quit) return;
+    if(m_program_state == Programstate::quit) return;
     //Go back to first menu
-    if(m_state == Programstate::home) return;
+    if(m_program_state == Programstate::home) return;
     //Stay here
-    assert(m_state == Programstate::game_won_by_RRH);
+    assert(m_program_state == Programstate::game_won_by_RRH);
   }
 }
 
@@ -45,16 +46,16 @@ void game_won_by_RRH_screen::process_event(const sf::Event& event)
   switch(event.type) //!OCLINT will not switch on all cases: there are too many of those
   {
     case sf::Event::Closed:
-      m_state = Programstate::quit;
+      m_program_state = Programstate::quit;
       break;
     case sf::Event::KeyPressed:
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::N))
       {
-        m_state = Programstate::home;
+        m_program_state = Programstate::home;
       }
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
       {
-        m_state = Programstate::quit;
+        m_program_state = Programstate::quit;
       }
       break;
     default:

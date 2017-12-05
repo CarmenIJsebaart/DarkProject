@@ -15,16 +15,16 @@ public:
   );
 
   ///Get the current state of the program
-  Programstate get_state() const noexcept { return m_state; }
+  Programstate get_state() const noexcept { return m_program_state; }
 
   void execute();
 
 private:
 
   ///The current state of the program
-  Programstate m_state;
+  Programstate m_program_state;
 
-  ///Text of which player has won
+  ///Sprites
   sprites_sfml& m_sprites;
 
   ///Window used for displayal

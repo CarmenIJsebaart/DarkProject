@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "game_state.h"
+#include "game_won_by_wolf_screen.h"
 #include "helper.h"
 #include "program_state.h"
 #include "sprites_sfml.h"
@@ -203,7 +204,7 @@ int main()
       if(programstate == Programstate::battle)
       {
         split_screen(view1, view2, w_size_x, w_size_y);
-        ///Set view at the player position
+        //Set view at the player position
         view1.move(red_riding_hood.getPosition());
         view2.move(wolf.getPosition());
 

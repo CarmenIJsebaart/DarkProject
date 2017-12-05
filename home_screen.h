@@ -20,7 +20,7 @@ public:
   void execute();
 
   ///Obtain the current or state after execute
-  Programstate get_state() const noexcept { return m_state; }
+  Programstate get_state() const noexcept { return m_program_state; }
 
 private:
 
@@ -31,7 +31,7 @@ private:
   sf::Text m_begin_text;
 
   ///In which state is the program while and directly after this menu?
-  Programstate m_state;
+  Programstate m_program_state;
 
   ///Window used for displayal
   sf::RenderWindow& m_window;
