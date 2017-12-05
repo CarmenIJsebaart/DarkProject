@@ -6,6 +6,7 @@
 #include "game_state.h"
 #include "game_won_by_wolf_screen.h"
 #include "helper.h"
+#include "program.h"
 #include "program_state.h"
 #include "sprites_sfml.h"
 #include "tilemap.h"

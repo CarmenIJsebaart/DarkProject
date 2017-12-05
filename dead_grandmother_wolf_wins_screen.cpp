@@ -3,9 +3,9 @@
 #include "game.h"
 
 dead_grandmother_wolf_wins_screen::dead_grandmother_wolf_wins_screen(
-  sprites_sfml& sprites,
-  sf::RenderWindow& window)
-:   m_program_state{Programstate::dead_grandmother_wolf_wins},
+  sf::RenderWindow& window,
+  sprites_sfml& sprites
+) : m_program_state{Programstate::dead_grandmother_wolf_wins},
     m_sprites(sprites),
     m_window{window}
 {

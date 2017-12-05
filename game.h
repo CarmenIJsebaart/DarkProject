@@ -8,6 +8,8 @@ public:
 
   game();
 
+  void execute();
+
 private:
 
 };

@@ -10,8 +10,8 @@ class dead_grandmother_wolf_wins_screen
 {
 public:
   dead_grandmother_wolf_wins_screen(
-    sprites_sfml &sprites,
-    sf::RenderWindow& window
+    sf::RenderWindow& window,
+    sprites_sfml &sprites
   );
 
   ///Get the current state of the program
