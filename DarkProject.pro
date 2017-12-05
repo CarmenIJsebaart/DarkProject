@@ -10,7 +10,9 @@ SOURCES += main.cpp \
     game_won_by_rrh_screen.cpp \
     game_won_by_wolf_screen.cpp \
     dead_grandmother_wolf_wins_screen.cpp \
-    program_state.cpp
+    program_state.cpp \
+    player.cpp \
+    action.cpp
 
 # C++14
 CONFIG += c++14
@@ -71,7 +73,9 @@ HEADERS += \
     game_won_by_rrh_screen.h \
     game_won_by_wolf_screen.h \
     dead_grandmother_wolf_wins_screen.h \
-    program_state.h
+    program_state.h \
+    player.h \
+    action.h
 
 RESOURCES += \
     resources.qrc
