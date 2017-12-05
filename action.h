@@ -1,11 +1,12 @@
 #ifndef ACTION_H
 #define ACTION_H
 
-
-class action
+enum class action
 {
-public:
-  action();
+  move_down,
+  move_left,
+  move_right,
+  move_up
 };
 
 #endif // ACTION_H
