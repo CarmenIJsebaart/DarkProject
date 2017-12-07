@@ -204,6 +204,15 @@ int main()
 
       if(programstate == Programstate::battle)
       {
+        float dist_x = grandmother.getPosition().x - red_riding_hood.getPosition().x;
+        float dist_y = grandmother.getPosition().y - red_riding_hood.getPosition().y;
+        float dist_x_2 = dist_x * dist_x;
+        float dist_y_2 = dist_y * dist_y;
+
+        float dist = sqrt(dist_x_2 + dist_y_2);
+
+        std::cout << dist << std::endl;
+
         split_screen(view1, view2, w_size_x, w_size_y);
         //Set view at the player position
         view1.move(red_riding_hood.getPosition());
@@ -290,20 +299,24 @@ int main()
         {
           programstate = Programstate::dead_grandmother_wolf_wins;
         }
+        if(has_to_die(grandmother.getPosition(), red_riding_hood.getPosition()))
+        {
+          programstate = Programstate::game_won_by_RRH;
+        }
 
         w.clear();
 
         w.setView(view1);
         w.draw(map);
+        w.draw(grandmother);
         w.draw(wolf_shadow);
         w.draw(red_riding_hood);
-        w.draw(grandmother);
 
         w.setView(view2);
         w.draw(map);
+        w.draw(grandmother);
         w.draw(red_riding_hood_shadow);
         w.draw(wolf);
-        w.draw(grandmother);
 
         w.display();
       }
@@ -358,7 +371,6 @@ int main()
 
       if(programstate == Programstate::game_won_by_RRH)
       {
-
         while(w.pollEvent(event))
         {
           switch(event.type)
@@ -372,8 +384,8 @@ int main()
         }
 
         single_screen(view1);
-        red_riding_hood_wins.setScale(0.55, 0.55);
-        red_riding_hood_wins.setPosition(-120, -120);
+        red_riding_hood_wins.setScale(0.65, 1.0);
+        red_riding_hood_wins.setPosition(-140, -135);
 
         w.setView(view1);
         w.clear(sf::Color::Red);
